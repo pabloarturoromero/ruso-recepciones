@@ -4,7 +4,7 @@ Plan de 30 días (Rev 2.0) en un solo archivo, `index.html`: dashboard de progre
 
 ## Uso
 
-Abrir `index.html` en el navegador. No requiere servidor ni instalación.
+Publicado en https://ruso-recepciones.pages.dev (Cloudflare Pages, cada push a `main`). También se puede abrir `index.html` directamente en el navegador.
 
 ## Pruebas (Playwright)
 
