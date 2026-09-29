@@ -1,6 +1,6 @@
 # Ruso para Recepciones Diplomáticas
 
-Plan de 30 días (Rev 2.0) en un solo archivo, `index.html`: dashboard de progreso, lección del día con temporizadores y lectura en voz rusa del navegador, índice de 30 días y referencia gramatical. El progreso se guarda en el `localStorage` del navegador (clave `ruso_recepciones_v2`).
+Plan de 30 días (Rev 2.0) en un solo archivo, `index.html`: dashboard de progreso, lección del día con temporizadores y lectura en voz rusa del navegador, índice de 30 días y referencia gramatical. El progreso se guarda en el `localStorage` del navegador (clave `ruso_recepciones_v2`) y, con la clave de sincronización de Amor de Mamá (Dashboard → Sincronización entre dispositivos), se comparte entre el teléfono y la computadora.
 
 ## Uso
 

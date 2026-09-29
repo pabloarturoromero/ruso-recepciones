@@ -1,4 +1,15 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}
+.sync-state{display:inline-flex; align-items:center; gap:6px; font-size:.78rem; color:var(--ink-3);}
+.sync-state .dot{width:8px; height:8px; border-radius:50%; background:var(--ink-3);}
+.sync-state[data-e="ok"] .dot{background:var(--ok);}
+.sync-state[data-e="pend"] .dot{background:var(--warn);}
+.sync-state[data-e="error"] .dot, .sync-state[data-e="clave"] .dot{background:var(--accent);}
+.sync-form{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+.sync-form input{flex:1 1 220px; min-width:0; padding:7px 10px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--ink); font-size:.9rem; font-family:inherit;}
+.sync-acts{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+.sync-msg{font-size:.85rem; color:var(--ink-2); margin:0;}
+.sync-err{font-size:.82rem; color:var(--accent); margin:8px 0 0;}
+</style></head><body>
 
 <title>Ruso Recepciones — Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -166,6 +177,7 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
   <div class="topbar">
     <h1>Ruso para Recepciones Diplomáticas <span style="color:var(--ink-3); font-weight:400;">— Rev 2.0</span></h1>
     <div class="sub">30 días · A Input/fonología 8 · B Retrieval 10 · C Form focus 7 · D Micro-tarea grabada 5</div>
+    <span class="sync-state" id="sync-state" data-e="local" role="status"><span class="dot" aria-hidden="true"></span><span id="sync-txt">Guardado en este dispositivo</span></span>
   </div>
 
   <nav class="tabs">
@@ -186,6 +198,7 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
       </div>
       <div class="progressbar"><div id="st-bar" style="width:0%"></div></div>
     </div>
+    <div class="card" id="sync-card"></div>
     <div class="reminder"><b>⚠</b><div><b>La grabación es innegociable.</b> Es el mecanismo de autocorrección de acento de mayor rendimiento sin profesor. Marca "Grabado" cada vez que produzcas y escuches tu voz — el checkbox de bloque D y el botón de grabación son independientes a propósito.</div></div>
     <div class="card">
       <h2>Fases</h2>
@@ -911,7 +924,7 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
     </div>
   </section>
 
-  <footer class="note">Ruso para Recepciones Diplomáticas · Rev 2.0 · progreso guardado localmente en este navegador</footer>
+  <footer class="note">Ruso para Recepciones Diplomáticas · Rev 2.0 · progreso guardado en este navegador y, con la clave, sincronizado entre tus dispositivos</footer>
 </div>
 
 <script>
@@ -935,6 +948,7 @@ function loadState(){
 }
 function saveState(){
   try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  if(typeof SYNC !== 'undefined') SYNC.programar();
 }
 let state = loadState();
 
@@ -1098,8 +1112,15 @@ function wireTimers(container){
         t.running=true; startBtn.textContent='⏸';
         t.interval = setInterval(()=>{
           t.remaining--;
-          if(t.remaining<=0){ t.remaining=0; clearInterval(t.interval); t.running=false; startBtn.textContent='▶'; }
-          tval.textContent = fmtTime(t.remaining);
+          /* La lección puede volver a pintarse (p. ej. al marcar «Grabado»): se busca el reloj vigente. */
+          const el2 = document.querySelector('[data-timer="'+key+'"]');
+          if(t.remaining<=0){
+            t.remaining=0; clearInterval(t.interval); t.running=false;
+            if(el2) el2.querySelector('[data-act="start"]').textContent='▶';
+            const cb = el2 && el2.closest('.section-card').querySelector('[data-block]');
+            if(cb && !cb.checked) showToast('Tiempo del bloque '+cb.dataset.block+' cumplido. Márcalo como completado cuando termines.');
+          }
+          if(el2) el2.querySelector('.tval').textContent = fmtTime(t.remaining);
         },1000);
       }
     });
@@ -1355,8 +1376,231 @@ document.addEventListener('click', (e)=>{
   }
 });
 
+// ---------- Sincronización entre dispositivos ----------
+/* El avance (progress y perf) viaja al documento ruso/progreso. En el sitio publicado se guarda en la nube
+   propia del recetario Amor de Mamá (Cloudflare Pages Functions + KV) con la misma clave personal:
+   Authorization: Bearer <clave>, versión y 409 ante escrituras atrasadas. Dentro del artifact de Claude se usa
+   su base (capacidad db). selectedDay sigue siendo de cada dispositivo.
+   Nada se pisa: fusionar(base, local, remoto) toma, casilla por casilla, lo que cambió aquí respecto de lo
+   último visto en la nube (ruso_recepciones_base) y lo demás de la nube. */
+const NUBE_API = 'https://recetario-intercambiable.pages.dev/api';
+const NUBE_DOC = 'ruso/progreso';
+const CLAVE_KEY = 'ruso_recepciones_clave';
+const BASE_KEY = 'ruso_recepciones_base';
+const NUBE_CADA = 15000;
+const MIN_CLAVE = 20;
+const PROG_KEYS = ['A','B','C','D','recorded'];
+const PERF_KEYS = ['latencia','acento','integridad','fluidez','silencios'];
+
+function progresoDe(o){
+  const r = {progress:{}, perf:{}};
+  const pr = o && o.progress && typeof o.progress === 'object' ? o.progress : {};
+  const pf = o && o.perf && typeof o.perf === 'object' ? o.perf : {};
+  for(let d=1; d<=30; d++){
+    const p = pr[d], f = pf[d];
+    if(p && typeof p === 'object' && PROG_KEYS.some(k=>p[k])){ r.progress[d] = {}; PROG_KEYS.forEach(k=>{ r.progress[d][k] = !!p[k]; }); }
+    if(f && typeof f === 'object' && PERF_KEYS.some(k=>f[k])){ r.perf[d] = {}; PERF_KEYS.forEach(k=>{ r.perf[d][k] = typeof f[k] === 'string' ? f[k] : ''; }); }
+  }
+  return r;
+}
+function igualProgreso(a, b){ return JSON.stringify(progresoDe(a)) === JSON.stringify(progresoDe(b)); }
+function fusionar(base, local, remoto){
+  const b = progresoDe(base), l = progresoDe(local), r = progresoDe(remoto), o = {progress:{}, perf:{}};
+  [['progress', PROG_KEYS, false], ['perf', PERF_KEYS, '']].forEach(([sec, keys, vacio])=>{
+    for(let d=1; d<=30; d++){
+      const v = {};
+      keys.forEach(k=>{
+        const bv = b[sec][d] ? b[sec][d][k] : vacio, lv = l[sec][d] ? l[sec][d][k] : vacio, rv = r[sec][d] ? r[sec][d][k] : vacio;
+        v[k] = lv !== bv ? lv : rv;
+      });
+      o[sec][d] = v;
+    }
+  });
+  return progresoDe(o);
+}
+function leerClave(){ try{ return localStorage.getItem(CLAVE_KEY) || ''; }catch(e){ return ''; } }
+function guardarClave(c){ try{ if(c) localStorage.setItem(CLAVE_KEY, c); else localStorage.removeItem(CLAVE_KEY); }catch(e){} }
+/* Enlace para conectar otro dispositivo: #nube=<clave>, el mismo formato del recetario. Se borra al leerlo. */
+(function(){
+  const m = /^#nube=([^&]+)$/.exec(location.hash || '');
+  if(!m) return;
+  try{ guardarClave(decodeURIComponent(m[1]).trim()); }catch(e){}
+  try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+})();
+
+/* El documento en la nube, con la misma interfaz que la base del artifact: set(data) y onSnapshot(cb). */
+function nubeRef(){
+  let ver = null;
+  const cbs = [], url = NUBE_API + '/doc/' + NUBE_DOC;
+  const cab = (extra)=>Object.assign({'Authorization':'Bearer ' + leerClave()}, extra || {});
+  const emitir = (o)=>cbs.forEach(cb=>cb({exists:o.exists, metadata:{}, data:()=>o.data}));
+  function revisar(r){
+    if(r.status === 401){ SYNC.estado('clave', 'La nube ya no acepta la clave de este dispositivo. Escríbela de nuevo.'); throw new Error('clave'); }
+    if(!r.ok && r.status !== 409) throw new Error('nube ' + r.status);
+  }
+  function refrescar(){
+    return fetch(url, {cache:'no-store', headers:cab()}).then(r=>{
+      if(r.status === 404){ if(ver === null){ ver = 0; emitir({exists:false}); } return; }
+      revisar(r);
+      return r.json().then(j=>{
+        if(ver && !(j.version > ver)) return;   /* solo avanza */
+        ver = j.version; emitir({exists:true, data:j.data});
+      });
+    }).catch(e=>{ if(e.message !== 'clave') SYNC.estado('error'); });
+  }
+  return {
+    set(data){
+      return fetch(url, {method:'PUT', cache:'no-store', headers:cab({'content-type':'application/json'}), body:JSON.stringify({base:ver || null, data})}).then(r=>{
+        revisar(r);
+        if(r.status === 409) return r.json().then(j=>{ ver = j.version; emitir({exists:true, data:j.data}); return {conflicto:true}; });
+        return r.json().then(j=>{ ver = j.version; });
+      });
+    },
+    onSnapshot(cb){ cbs.push(cb); refrescar(); return ()=>{}; },
+    refrescar
+  };
+}
+
+const SYNC = (function(){
+  let ref = null, tipo = null, tmr = null, subiendo = false, base = null, est = 'local', msg = '', ultima = null;
+  try{ const rb = localStorage.getItem(BASE_KEY); if(rb) base = progresoDe(JSON.parse(rb)); }catch(e){}
+  function fijarBase(o){ base = progresoDe(o); try{ localStorage.setItem(BASE_KEY, JSON.stringify(base)); }catch(e){} }
+  const TXT = {local:'Guardado en este dispositivo', conectando:'Conectando…', ok:'Sincronizado', pend:'Guardando…',
+    error:'Sin conexión: se guarda aquí y se sube al volver', clave:'Falta la clave de sincronización'};
+  function estado(e, m){
+    if(e === 'clave'){ ref = null; tipo = null; }
+    est = e; if(m !== undefined) msg = m;
+    if(e === 'ok'){ ultima = new Date(); msg = ''; }
+    const el = document.getElementById('sync-state');
+    if(el){ el.dataset.e = e; document.getElementById('sync-txt').textContent = TXT[e] || e; }
+    pintarTarjeta();
+  }
+  function cuerpo(){ const p = progresoDe(state); return {v:2, progress:p.progress, perf:p.perf, actualizado:new Date().toISOString()}; }
+  function subir(){
+    if(!ref) return;
+    clearTimeout(tmr); tmr = null;
+    const c = cuerpo(); subiendo = true; estado('pend');
+    Promise.resolve(ref.set(c)).then(r=>{
+      subiendo = false;
+      if(r && r.conflicto) return;      /* llegó lo de otro dispositivo: ya se fusionó y sale otra subida */
+      fijarBase(c);
+      if(!tmr) estado('ok');
+    }).catch(()=>{ subiendo = false; if(est !== 'clave') estado('error'); });
+  }
+  function programar(inmediato){
+    if(!ref) return;
+    estado('pend');
+    clearTimeout(tmr);
+    tmr = setTimeout(subir, inmediato ? 50 : 400);
+  }
+  function alRecibir(sn){
+    if(sn.metadata && sn.metadata.hasPendingWrites) return;
+    if(!sn.exists){
+      const p = progresoDe(state);
+      if(Object.keys(p.progress).length || Object.keys(p.perf).length) subir(); else estado('ok');
+      return;
+    }
+    const remoto = progresoDe(sn.data());
+    /* Sin base (primera conexión) se suman ambos lados: lo hecho en este dispositivo antes de conectarlo no se pierde. */
+    const propio = tmr || subiendo || !base || !igualProgreso(state, base);
+    const nuevo = propio ? fusionar(base, state, remoto) : remoto;
+    fijarBase(remoto);
+    const cambio = !igualProgreso(nuevo, state);
+    state.progress = nuevo.progress; state.perf = nuevo.perf;
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+    if(!igualProgreso(nuevo, remoto)) programar(true);
+    else if(!tmr && !subiendo) estado('ok');
+    if(cambio) refrescarVista();
+  }
+  function conectar(r, t){ ref = r; tipo = t; estado('conectando'); ref.onSnapshot(alRecibir, ()=>estado('error')); }
+  function iniciar(){
+    if(window.claude && window.claude.use){
+      window.claude.use('db').then(db=>{ if(db) conectar(db.doc(NUBE_DOC), 'claude'); else estado('local'); }).catch(()=>estado('local'));
+      return;
+    }
+    if(leerClave().length >= MIN_CLAVE) conectar(nubeRef(), 'nube');
+    else estado('local');
+  }
+  function refrescar(){
+    if(tipo !== 'nube' || !ref) return;
+    if(est === 'error' && !tmr && !subiendo) subir();
+    else ref.refrescar();
+  }
+  function conectarConClave(c){
+    c = String(c || '').trim();
+    if(c.length < MIN_CLAVE){ msg = 'La clave tiene al menos ' + MIN_CLAVE + ' caracteres.'; pintarTarjeta(); return; }
+    fetch(NUBE_API + '/nube', {cache:'no-store', headers:{'Authorization':'Bearer ' + c}}).then(r=>{
+      if(r.ok){ guardarClave(c); msg = ''; conectar(nubeRef(), 'nube'); return; }
+      msg = r.status === 401 ? 'Clave incorrecta.' : 'La nube no respondió. Intenta de nuevo.'; pintarTarjeta();
+    }).catch(()=>{ msg = 'Sin conexión. Intenta de nuevo.'; pintarTarjeta(); });
+  }
+  function desconectar(){
+    guardarClave(''); ref = null; tipo = null; base = null; clearTimeout(tmr); tmr = null;
+    try{ localStorage.removeItem(BASE_KEY); }catch(e){}
+    msg = ''; estado('local');
+  }
+  function pintarTarjeta(){
+    const el = document.getElementById('sync-card');
+    if(!el) return;
+    let h = '<h2>Sincronización entre dispositivos</h2>';
+    if(tipo === 'claude'){
+      h += '<p class="sync-msg">Dentro de Claude, tu avance se guarda en la base de este artifact y se ve en cualquier dispositivo donde abras este mismo enlace.</p>';
+    } else if(tipo === 'nube'){
+      h += '<p class="sync-msg">' + (est === 'ok'
+        ? '✓ Conectado. Cada bloque que marcas se sube al momento; lo que hagas en otro dispositivo aparece aquí en segundos.' +
+          (ultima ? ' Última sincronización: ' + ultima.toLocaleTimeString('es-EC', {hour:'2-digit', minute:'2-digit'}) + '.' : '')
+        : (TXT[est] || '') + '.') + '</p>' +
+        '<div class="sync-acts"><button class="btn" id="sync-enlace">Copiar enlace para otro dispositivo</button>' +
+        '<button class="btn" id="sync-olvidar">Desconectar este dispositivo</button></div>';
+    } else {
+      h += '<p class="sync-msg">Para ver el mismo avance en el teléfono y en la computadora, escribe tu clave de sincronización: es la misma de Amor de Mamá. Se guarda solo en este dispositivo.</p>' +
+        '<form class="sync-form" id="sync-form"><input id="sync-clave" type="password" autocomplete="off" placeholder="Clave de sincronización" aria-label="Clave de sincronización">' +
+        '<button class="btn primary" type="submit">Conectar</button></form>';
+    }
+    if(msg) h += '<p class="sync-err" role="alert">' + msg.replace(/</g,'&lt;') + '</p>';
+    el.innerHTML = h;
+    const f = document.getElementById('sync-form');
+    if(f) f.addEventListener('submit', (e)=>{ e.preventDefault(); conectarConClave(document.getElementById('sync-clave').value); });
+    const en = document.getElementById('sync-enlace');
+    if(en) en.addEventListener('click', ()=>{
+      const u = location.origin + location.pathname + '#nube=' + encodeURIComponent(leerClave());
+      Promise.resolve().then(()=>navigator.clipboard.writeText(u))
+        .then(()=>showToast('Enlace copiado. Ábrelo en tu otro dispositivo; lleva tu clave, no lo compartas.'), ()=>showToast('No se pudo copiar.'));
+    });
+    const ol = document.getElementById('sync-olvidar');
+    if(ol) ol.addEventListener('click', ()=>{
+      if(!window.confirm || window.confirm('¿Desconectar este dispositivo? El avance sigue aquí y en la nube, pero dejará de sincronizarse.')) desconectar();
+    });
+  }
+  return {programar, iniciar, refrescar, estado, pintarTarjeta};
+})();
+
+/* Lo que llega de otro dispositivo se pinta sin reconstruir la lección: no se cortan temporizadores ni la escritura. */
+function refrescarVista(){
+  const v = (document.querySelector('.view.active') || {}).id;
+  if(v === 'view-dashboard') renderDashboard();
+  else if(v === 'view-indice') renderIndice();
+  else if(v === 'view-hoy'){
+    const day = state.selectedDay || 1, p = getProgress(day), pf = getPerf(day), c = document.getElementById('hoy-content');
+    c.querySelectorAll('[data-block]').forEach(cb=>{ cb.checked = !!p[cb.dataset.block]; });
+    const dct = document.getElementById('day-complete-toggle'); if(dct) dct.checked = !!p.D;
+    const rec = document.getElementById('btn-mark-recorded'); if(rec) rec.textContent = p.recorded ? '✓ Grabado' : 'Marcar grabado';
+    c.querySelectorAll('[data-perf]').forEach(inp=>{ if(inp !== document.activeElement) inp.value = pf[inp.dataset.perf] || ''; });
+  }
+}
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) SYNC.refrescar(); });
+window.addEventListener('focus', ()=>SYNC.refrescar());
+setInterval(()=>{ if(!document.hidden) SYNC.refrescar(); }, NUBE_CADA);
+/* Otra pestaña del mismo navegador. */
+window.addEventListener('storage', (e)=>{
+  if(e.key !== STORAGE_KEY || !e.newValue) return;
+  try{ const o = JSON.parse(e.newValue); state.progress = o.progress || {}; state.perf = o.perf || {}; refrescarVista(); }catch(err){}
+});
+
 // ---------- Init ----------
 switchView('dashboard');
+SYNC.iniciar();
+SYNC.pintarTarjeta();
 injectSpeakButtons(document.getElementById('view-referencia'));
 </script>
 
