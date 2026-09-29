@@ -1,6 +1,6 @@
 # Ruso para Recepciones Diplomáticas
 
-Plan de 30 días (Rev 2.0) en un solo archivo, `index.html`: dashboard de progreso, lección del día con temporizadores y lectura en voz rusa del navegador, índice de 30 días, referencia gramatical la pestaña Curso, que acompaña las 20 lecciones del curso gratuito de Russian Enthusiast con resúmenes en español, videos, ejercicios autocorregidos y lecturas A2, y la pestaña «Dudas», un chat sin conexión para preguntas de gramática, ortografía, pronunciación y vocabulario. El progreso se guarda en el `localStorage` del navegador (clave `ruso_recepciones_v2`) y, con la clave de sincronización de Amor de Mamá (Dashboard → Sincronización entre dispositivos), se comparte entre el teléfono y la computadora.
+Plan de 30 días (Rev 2.1) en un solo archivo, `index.html`: dashboard de progreso y diagnóstico de puntos débiles, lección del día con temporizadores y lectura en voz rusa del navegador, repaso espaciado de unas 300 frases (plan, básico, números, días, meses, horas, colores, comida, diplomacia, Antártida, muletillas) con exportación a Anki, grabación y autoevaluación de la pronunciación, simulador de recepciones con cinco escenarios, índice de 30 días, referencia gramatical, tarjeta de bolsillo imprimible, la pestaña Curso, que acompaña las 20 lecciones del curso gratuito de Russian Enthusiast con resúmenes en español, videos, ejercicios autocorregidos y lecturas A2, y la pestaña «Dudas», un chat sin conexión para preguntas de gramática, ortografía, pronunciación y vocabulario. El progreso de los 30 días y del curso se guarda en el `localStorage` del navegador (clave `ruso_recepciones_v2`) y, con la clave de sincronización de Amor de Mamá (Dashboard → Sincronización entre dispositivos), se comparte entre el teléfono y la computadora; el repaso, la pronunciación y las simulaciones, en `ruso_recepciones_repaso_v1`, solo en este dispositivo.
 
 ## Uso
 
@@ -13,7 +13,7 @@ npm install
 npm test
 ```
 
-`tests/dudas.test.mjs` prueba el motor del chat sin navegador (casos, conjugaciones, acento, transliteración, temas y preguntas sobre el curso). Las pruebas (`tests/ui.test.mjs`) verifican que la página carga sin errores, que los 30 días se renderizan, que el progreso y el registro de desempeño persisten, que el índice y la referencia enlazan al día correcto, que la pestaña Curso muestra las 20 lecciones, corrige los ejercicios y guarda el avance, y que no hay desplazamiento horizontal a 375 px. Las capturas se guardan en `capturas/`.
+`tests/dudas.test.mjs` prueba el motor del chat sin navegador (casos, conjugaciones, acento, transliteración, temas y preguntas sobre el curso). Las pruebas (`tests/ui.test.mjs`) verifican que la página carga sin errores, el vocabulario (ids únicos y referencias de los escenarios), el programador de repasos, la exportación a Anki, el simulador, el diagnóstico, la tarjeta de bolsillo, que los 30 días se renderizan, que el progreso y el registro de desempeño persisten, que el índice y la referencia enlazan al día correcto, que la pestaña Curso muestra las 20 lecciones, corrige los ejercicios y guarda el avance, y que no hay desplazamiento horizontal a 375 px. Las capturas se guardan en `capturas/`.
 
 ## Dudas (chat)
 

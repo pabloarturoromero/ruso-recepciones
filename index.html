@@ -345,10 +345,12 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
 @media (max-width:760px){
   .app{margin:0; padding:16px 16px 110px; border-radius:0; border:none; box-shadow:none; background:transparent; backdrop-filter:none; -webkit-backdrop-filter:none;}
   .topbar{grid-template-columns:auto 1fr auto; margin-bottom:14px;}
-  .tabs{position:fixed; z-index:50; left:12px; right:12px; bottom:12px; justify-content:space-between; gap:4px; border-radius:22px; background:var(--frame); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 12px 32px rgba(80,60,90,.18); grid-column:auto;}
-  .tab-btn{flex:1 1 0; flex-direction:column; gap:3px; padding:8px 4px; font-size:.68rem; min-width:0;}
+  .tabs{position:fixed; justify-self:stretch; z-index:50; left:12px; right:12px; bottom:12px; justify-content:space-between; gap:4px; border-radius:22px; background:var(--frame); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 12px 32px rgba(80,60,90,.18); grid-column:auto;}
+  .tab-btn{flex:1 1 0; flex-direction:column; gap:3px; padding:8px 0; font-size:.64rem; min-width:0;}
   .tab-btn svg.i{display:block; width:20px; height:20px;}
   .tab-btn span{max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .tab-btn span{display:none;}
+  .tab-btn::after{content:attr(data-c); white-space:nowrap;}
   .top-actions{grid-column:3;}
   .dash-grid{grid-template-columns:minmax(0,1fr);}
   .chart-card,.phases-card{grid-column:auto;}
@@ -360,18 +362,114 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
   .day-header h2{font-size:1.35rem;}
   .toast{bottom:100px;}
 }
+/* ---------- Repaso, simulador, diagnóstico y tarjeta ---------- */
+.grid-4{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:12px 0 4px;}
+@media (max-width:760px){ .grid-4{grid-template-columns:repeat(2,minmax(0,1fr));} }
+.stat{background:var(--panel-2); border:1px solid var(--border-2); border-radius:16px; padding:12px 14px; min-width:0;}
+.stat .num{font-size:1.5rem; font-weight:600; line-height:1.2; font-variant-numeric:tabular-nums;}
+.stat .label{font-size:.75rem; color:var(--ink-2); margin-top:2px;}
+.nota-suave{color:var(--ink-2); font-size:.85rem; margin:6px 0 10px;}
+.fila-btns{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px;}
+.ajustes{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin:10px 0; font-size:.85rem; color:var(--ink-2);}
+.ajustes select{margin-left:6px; padding:5px 8px; border:1px solid var(--border); border-radius:6px; background:var(--panel); color:var(--ink); font-size:.85rem; max-width:100%;}
+.kbd{font-size:.68rem; font-weight:400; opacity:.75; border:1px solid currentColor; border-radius:4px; padding:0 4px; margin-left:6px;}
+.fc{margin-top:14px; border:1px solid var(--border); border-radius:10px; padding:18px; background:var(--panel-2);}
+.fc-fin{font-size:.92rem;}
+.fc-meta{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;}
+.fc-es{font-size:1.25rem; font-weight:600; margin:6px 0;}
+.fc-hint{color:var(--ink-3); font-size:.82rem; margin:6px 0 12px;}
+.fc-oir{display:flex; gap:8px; align-items:center; margin:8px 0;}
+.fc-mostrar{margin-top:6px;}
+.fc-resp{border-top:1px dashed var(--border); margin-top:12px; padding-top:12px;}
+.fc-ru{font-size:1.5rem; font-weight:700; color:var(--accent); overflow-wrap:anywhere;}
+.fc-lee{color:var(--ink-3); font-size:.85rem; margin-top:2px;}
+.fc-nota{font-size:.82rem; color:var(--ink-2); margin-top:6px;}
+.grades{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:14px;}
+@media (max-width:480px){ .grades{grid-template-columns:repeat(2,1fr);} }
+.grade{font-weight:600; padding:9px 6px;}
+.grade small{display:block; font-weight:400; font-size:.72rem; color:var(--ink-3); margin-top:2px;}
+.grade.g1{border-color:var(--accent); color:var(--accent);}
+.grade.g2{border-color:var(--warn); color:var(--warn);}
+.grade.g3{border-color:var(--ok); color:var(--ok);}
+.grade.g4{border-color:var(--ink-3);}
+.grab{margin-top:12px; padding:10px 12px; border:1px solid var(--border-2); border-radius:8px; background:var(--panel);}
+.grab-btns{display:flex; flex-wrap:wrap; gap:6px;}
+.grab-est{font-size:.8rem; color:var(--ink-2); margin:6px 0; min-height:1em;}
+.autoev{display:flex; flex-wrap:wrap; gap:8px 16px; font-size:.8rem; color:var(--ink-2);}
+.autoev-item{display:inline-flex; align-items:center; gap:6px;}
+.seg{display:inline-flex; border:1px solid var(--border); border-radius:6px; overflow:hidden;}
+.seg button{border:none; border-left:1px solid var(--border); background:var(--panel); color:var(--ink-2); padding:3px 9px; cursor:pointer; font-weight:700; min-width:30px;}
+.seg button:first-child{border-left:none;}
+.seg button.on{background:var(--accent); color:var(--accent-ink);}
+.mazos{display:grid; gap:10px;}
+.mazo{border:1px solid var(--border-2); border-radius:8px; padding:10px 12px; display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px;}
+.mazo-desc{flex-basis:100%; font-size:.8rem; color:var(--ink-3);}
+.mazo-lista{flex-basis:100%; font-size:.85rem; min-width:0;}
+.mazo-lista summary{cursor:pointer; color:var(--accent); font-size:.8rem;}
+.mazo-lista td.estado,.diag-hoy td.estado,#dash-diag td.estado{color:var(--ink-3); font-size:.78rem; white-space:nowrap;}
+.ayuda{margin-top:10px; font-size:.85rem;}
+.ayuda summary{cursor:pointer; color:var(--accent);}
+.ayuda code{font-size:.8rem; background:var(--muted-soft); padding:1px 5px; border-radius:4px; overflow-wrap:anywhere;}
+.esc-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin:10px 0;}
+.esc-opt{text-align:left; border:1px solid var(--border); border-radius:8px; padding:10px 12px; cursor:pointer; background:var(--panel-2); color:var(--ink); display:flex; flex-direction:column; gap:4px; font-size:.85rem;}
+.esc-opt span{color:var(--ink-2); font-size:.8rem;}
+.esc-opt .esc-dias{color:var(--ink-3); font-size:.72rem;}
+.esc-opt.on{border-color:var(--accent); box-shadow:0 0 0 1px var(--accent); background:var(--accent-soft);}
+.sim-top{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:12px;}
+.sim-top .btn{margin-left:auto;}
+.host{border-left:3px solid var(--accent); background:var(--panel-2); padding:12px 14px; border-radius:0 8px 8px 0; margin-bottom:12px;}
+.host-quien{font-size:.75rem; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px;}
+.host-ru{font-size:1.2rem; font-weight:600; margin-bottom:4px; overflow-wrap:anywhere;}
+.host-es{color:var(--ink-2); font-size:.88rem; margin-bottom:6px;}
+.host-oculto{color:var(--ink-3); font-style:italic; margin-bottom:6px;}
+.countdown{height:10px; background:var(--muted-soft); border-radius:6px; overflow:hidden;}
+.countdown > div{height:100%; background:var(--accent);}
+.sim-grande{font-size:1rem; padding:12px 18px;}
+.resp-lista{display:grid; gap:8px; margin:10px 0;}
+.resp-tit{font-size:.8rem; color:var(--ink-3);}
+.resp{border:1px solid var(--border-2); border-radius:8px; padding:8px 12px; cursor:pointer; background:var(--panel);}
+.resp.on{border-color:var(--ok); box-shadow:0 0 0 1px var(--ok);}
+.resp .ru{font-weight:600; overflow-wrap:anywhere;}
+.resp-es{font-size:.82rem; color:var(--ink-2);}
+.grades3 .grade{flex:1 1 110px;}
+.consejos{margin:6px 0 10px; padding-left:1.2em; font-size:.9rem;}
+.consejos li{margin:4px 0;}
+.diag-sub{font-weight:700; font-size:.85rem; margin:10px 0 4px;}
+.diag-datos{font-size:.8rem; color:var(--ink-2); margin-top:10px; display:grid; gap:3px;}
+.hoy-repaso{margin-bottom:14px; align-items:center;}
+.hoy-repaso .btn{margin:2px 0;}
+#tarjeta{position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:1000; overflow:auto; padding:20px 12px;}
+.tj{max-width:520px; margin:0 auto; background:var(--panel); color:var(--ink); border-radius:12px; padding:18px 20px; box-shadow:0 8px 30px rgba(0,0,0,.3);}
+.tj-cab{display:flex; justify-content:space-between; align-items:baseline; gap:10px; border-bottom:2px solid var(--accent); padding-bottom:6px; margin-bottom:6px;}
+.tj-cab span{color:var(--ink-3); font-size:.8rem;}
+.tj-sec{font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent); font-weight:700; margin:12px 0 4px;}
+.tj ol,.tj ul{margin:0; padding-left:1.3em;}
+.tj li{margin:5px 0; font-size:.9rem;}
+.tj li .ru{font-weight:700; display:block;}
+.tj-lee{display:block; color:var(--ink-3); font-size:.75rem;}
+.tj-es{display:block; color:var(--ink-2); font-size:.8rem;}
+.tj-pie{margin-top:12px; font-size:.75rem; color:var(--ink-3);}
+@media print{
+  body{background:#fff!important;}
+  body > *:not(#tarjeta){display:none!important;}
+  #tarjeta{position:static; background:none; padding:0;}
+  .tj{box-shadow:none; max-width:none; color:#000; background:#fff;}
+  .tj-acciones{display:none;}
+}
 </style>
 
 <div class="app">
   <header class="topbar">
     <div class="logo ru" aria-hidden="true">Ру</div>
     <nav class="tabs">
-      <button class="tab-btn" data-view="dashboard"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></button>
-      <button class="tab-btn" data-view="hoy"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span>Hoy</span></button>
-      <button class="tab-btn" data-view="indice"><svg class="i" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span>Índice</span></button>
-      <button class="tab-btn" data-view="referencia"><svg class="i" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM19 19v2H6"/></svg><span>Referencia</span></button>
-      <button class="tab-btn" data-view="curso"><svg class="i" viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg><span>Curso</span></button>
-      <button class="tab-btn" data-view="dudas"><svg class="i" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M12 16.5h.01"/></svg><span>Dudas</span></button>
+      <button class="tab-btn" data-view="dashboard" data-c="Inicio" aria-label="Dashboard"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></button>
+      <button class="tab-btn" data-view="hoy" data-c="Hoy" aria-label="Hoy"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span>Hoy</span></button>
+      <button class="tab-btn" data-view="repaso" data-c="Repaso" aria-label="Repaso"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg><span>Repaso</span></button>
+      <button class="tab-btn" data-view="simulador" data-c="Simul." aria-label="Simulador"><svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c.6-.3 1.3-.5 2-.5 2.8 0 4 2.2 4 5"/></svg><span>Simulador</span></button>
+      <button class="tab-btn" data-view="indice" data-c="Índice" aria-label="Índice"><svg class="i" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span>Índice</span></button>
+      <button class="tab-btn" data-view="referencia" data-c="Ref." aria-label="Referencia"><svg class="i" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM19 19v2H6"/></svg><span>Referencia</span></button>
+      <button class="tab-btn" data-view="curso" data-c="Curso" aria-label="Curso"><svg class="i" viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg><span>Curso</span></button>
+      <button class="tab-btn" data-view="dudas" data-c="Dudas" aria-label="Dudas"><svg class="i" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M12 16.5h.01"/></svg><span>Dudas</span></button>
     </nav>
     <div class="top-actions">
       <button class="icon-btn" id="btn-theme" type="button" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema"></button>
@@ -381,7 +479,7 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
 
   <h1 class="greet"><span class="ru" id="greet-ru">До́брый день</span>, Pablo</h1>
   <span class="sync-state" id="sync-state" data-e="local" role="status"><span class="dot" aria-hidden="true"></span><span id="sync-txt">Guardado en este dispositivo</span></span>
-  <div class="greet-sub">Ruso para Recepciones Diplomáticas · Rev 2.0 · 30 días · A Input/fonología 8 · B Retrieval 10 · C Form focus 7 · D Micro-tarea grabada 5</div>
+  <div class="greet-sub">Ruso para Recepciones Diplomáticas · Rev 2.1 · 30 días · A Input/fonología 8 · B Retrieval 10 · C Form focus 7 · D Micro-tarea grabada 5</div>
 
   <section id="view-dashboard" class="view">
     <div class="dash-grid">
@@ -413,6 +511,8 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
       <div class="metric"><div class="row"><span><button class="jumplink" id="dash-curso">Abrir el curso</button></span><b id="st-curso">0/20</b></div><div class="progressbar"><div id="st-curso-bar" style="width:0%"></div></div></div>
     </div>
       <div class="card" id="sync-card"></div>
+      <div class="card" id="dash-repaso"></div>
+      <div class="card" id="dash-diag"></div>
     </div>
     <div class="reminder"><div class="rem-ico"><svg class="i" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div><div><b>La grabación es innegociable.</b> Es el mecanismo de autocorrección de acento de mayor rendimiento sin profesor. Marca "Grabado" cada vez que produzcas y escuches tu voz — el checkbox de bloque D y el botón de grabación son independientes a propósito.</div></div>
   </section>
@@ -428,6 +528,10 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
     <div class="hint">🔊 junto a una frase = reproducirla con la voz en ruso del navegador (no es grabación profesional; complementa, no sustituye, la escucha nativa recomendada).</div>
     <div id="hoy-content"></div>
   </section>
+
+  <section id="view-repaso" class="view"></section>
+
+  <section id="view-simulador" class="view"></section>
 
   <section id="view-indice" class="view">
     <div class="card" id="indice-content"></div>
@@ -1164,8 +1268,10 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
     <div id="curso-content"></div>
   </section>
 
-  <footer class="note">Ruso para Recepciones Diplomáticas · Rev 2.0 · progreso guardado en este navegador y, con la clave, sincronizado entre tus dispositivos</footer>
+  <footer class="note">Ruso para Recepciones Diplomáticas · Rev 2.1 · progreso guardado en este navegador y, con la clave, sincronizado entre tus dispositivos</footer>
 </div>
+
+<div id="tarjeta" hidden></div>
 
 <script type="application/json" id="dudas">
 {
@@ -2425,6 +2531,9 @@ function switchView(v){
   if(v==='hoy') renderHoy();
   if(v==='curso') renderCurso();
   if(v==='dudas') abrirDudas();
+  if(v==='repaso') renderRepaso();
+  if(v==='simulador') renderSimulador();
+  else pausarSimulador();
 }
 
 // ---------- Dashboard ----------
@@ -2523,6 +2632,7 @@ function renderDashboard(){
     });
     wrap.appendChild(div);
   });
+  renderPanelRepaso();
 }
 
 function renderTopRing(pct){
@@ -2802,6 +2912,7 @@ function renderHoy(){
     const hctl = card.querySelector('.hctl');
     if(body && hctl) injectBlockPlayAll(card, body, hctl);
   });
+  renderHoyExtras(day, contentDiv);
 }
 
 function renderHoy_softRefreshComparison(){
@@ -3033,8 +3144,8 @@ function renderCurso(){
     L.lec.glos.map(g=>'<tr><td class="ru">' + esc(g[0]) + '</td><td>' + esc(g[1]) + '</td></tr>').join('') + '</tbody></table></div>' +
     '<div class="cu-sub">Comprensión</div><ol class="cu-ejs">' + L.lec.pr.map((e, i)=>htmlEjercicio(e, i, 'p')).join('') + '</ol></div></div>';
 
-  h += '<div class="cu-nav">' + (n > 1 ? '<button class="btn" data-ir="' + (n - 1) + '">← Lección ' + (n - 1) + '</button>' : '') +
-    (n < CURSO_N ? '<button class="btn primary" data-ir="' + (n + 1) + '">Lección ' + (n + 1) + ' →</button>' : '') + '</div>';
+  h += '<div class="cu-nav">' + (n > 1 ? '<button class="btn" data-lec="' + (n - 1) + '">← Lección ' + (n - 1) + '</button>' : '') +
+    (n < CURSO_N ? '<button class="btn primary" data-lec="' + (n + 1) + '">Lección ' + (n + 1) + ' →</button>' : '') + '</div>';
 
   const c = document.getElementById('curso-content');
   c.innerHTML = h;
@@ -3042,7 +3153,7 @@ function renderCurso(){
   c.querySelectorAll('[data-paso]').forEach(cb=>cb.addEventListener('change', ()=>{
     getCurso(n)[cb.dataset.paso] = cb.checked; saveState(); pintarCursoEstado();
   }));
-  c.querySelectorAll('[data-ir]').forEach(b=>b.addEventListener('click', ()=>irLeccion(b.dataset.ir)));
+  c.querySelectorAll('[data-lec]').forEach(b=>b.addEventListener('click', ()=>irLeccion(b.dataset.lec)));
   c.querySelectorAll('[data-vid]').forEach(b=>b.addEventListener('click', ()=>{
     const box = b.closest('.cu-video');
     if(box.querySelector('iframe')) return;
@@ -3469,6 +3580,846 @@ document.getElementById('dudas-limpiar').addEventListener('click', ()=>{
     e.currentTarget.setAttribute('aria-expanded', String(!tec.hidden));
   });
 })();
+</script>
+<script type="application/json" id="vocab">{"version":1,"mazos":[{"id":"plan","nombre":"Frases del plan","desc":"Las fórmulas de los 30 días, con el día en que aparecen.","items":[{"id":"p01","ru":"До́брый ве́чер!","es":"¡Buenas noches! (al llegar)","lee":"DÓ-bry VYÉ-cher","dia":1},{"id":"p02","ru":"Здра́вствуйте!","es":"¡Buenos días! / Hola (formal)","lee":"ZDRÁST-vuy-tye","nota":"La primera в es muda.","dia":1},{"id":"p03","ru":"О́чень прия́тно.","es":"Mucho gusto.","lee":"Ó-chin' pri-YÁT-na","dia":1},{"id":"p04","ru":"Спаси́бо большо́е.","es":"Muchas gracias.","lee":"spa-SÍ-ba bal'-SHÓ-ye","dia":1},{"id":"p05","ru":"Пожа́луйста.","es":"Por favor. / De nada.","lee":"pa-ZHÁL-sta","dia":1},{"id":"p06","ru":"До свида́ния!","es":"¡Adiós!","lee":"da svi-DÁ-ni-ya","dia":1},{"id":"p07","ru":"Я из Эквадо́ра.","es":"Soy de Ecuador.","lee":"ya iz ekva-DÓ-ra","dia":2},{"id":"p08","ru":"Я из Гуая́киля.","es":"Soy de Guayaquil.","lee":"ya iz gua-YÁ-ki-lya","dia":2},{"id":"p09","ru":"Отку́да вы?","es":"¿De dónde es usted?","lee":"at-KÚ-da vy","dia":2},{"id":"p10","ru":"Вы говори́те по-ру́сски?","es":"¿Habla usted ruso?","lee":"vy gava-RÍ-tye pa-RÚS-ki","dia":3},{"id":"p11","ru":"Немно́го. О́чень немно́го.","es":"Un poco. Muy poco.","lee":"nim-NÓ-ga. Ó-chin' nim-NÓ-ga","dia":3},{"id":"p12","ru":"Ка́к вам Москва́?","es":"¿Qué le parece Moscú?","lee":"kak vam mask-VÁ","dia":3},{"id":"p13","ru":"Прекра́сный го́род!","es":"¡Una ciudad magnífica!","lee":"prik-RÁS-ny GÓ-rat","dia":3},{"id":"p14","ru":"Э́то ваш пе́рвый раз в Росси́и?","es":"¿Es su primera vez en Rusia?","lee":"É-ta vash PYÉR-vy ras v ra-SÍ-i","dia":3},{"id":"p15","ru":"Да, пе́рвый раз.","es":"Sí, la primera vez.","lee":"da, PYÉR-vy ras","dia":3},{"id":"p16","ru":"Вы давно́ в Росси́и?","es":"¿Lleva mucho tiempo en Rusia?","lee":"vy dav-NÓ v ra-SÍ-i","dia":3},{"id":"p17","ru":"Нет, недо́лго.","es":"No, poco tiempo.","lee":"nyet, ni-DÓL-ga","dia":3},{"id":"p18","ru":"Извини́те, я пло́хо говорю́ по-ру́сски.","es":"Disculpe, hablo mal el ruso.","lee":"izvi-NÍ-tye, ya PLÓ-ja gava-RYÚ pa-RÚS-ki","dia":4},{"id":"p19","ru":"Я то́лько на́чал учи́ть ру́сский.","es":"Apenas empecé a aprender ruso.","lee":"ya TÓL-ka NÁ-chal u-CHÍT' RÚS-ki","nota":"Forma masculina.","dia":4},{"id":"p20","ru":"Помедле́ннее, пожа́луйста.","es":"Más despacio, por favor.","lee":"pa-mid-LYÉ-ni-ye, pa-ZHÁL-sta","dia":4},{"id":"p21","ru":"Прости́те, я не по́нял.","es":"Perdón, no entendí.","lee":"pras-TÍ-tye, ya ni PÓ-nyal","nota":"Forma masculina.","dia":4},{"id":"p22","ru":"Дава́йте продо́лжим по-англи́йски?","es":"¿Seguimos en inglés?","lee":"da-VÁY-tye pra-DÓL-zhim pa-an-GLÍ-ski","dia":4},{"id":"p23","ru":"Бы́ло о́чень прия́тно!","es":"¡Ha sido un placer!","lee":"BÝ-la Ó-chin' pri-YÁT-na","dia":4},{"id":"p24","ru":"У меня́ нет вре́мени.","es":"No tengo tiempo.","lee":"u mi-NYÁ nyet VRYÉ-mi-ni","dia":5},{"id":"p25","ru":"Без пробле́м.","es":"Sin problema.","lee":"byes prab-LYÉM","dia":5},{"id":"p26","ru":"У меня́ нет слов!","es":"¡No tengo palabras! (elogio)","lee":"u mi-NYÁ nyet slof","dia":5},{"id":"p27","ru":"Прекра́сный ве́чер!","es":"¡Una velada magnífica!","lee":"prik-RÁS-ny VYÉ-cher","dia":6},{"id":"p28","ru":"О́чень вку́сно!","es":"¡Muy rico!","lee":"Ó-chin' VKÚS-na","dia":6},{"id":"p29","ru":"У вас чуде́сный приём.","es":"Tiene usted una recepción encantadora.","lee":"u vas chu-DYÉS-ny pri-YÓM","dia":6},{"id":"p30","ru":"Спаси́бо за приглаше́ние.","es":"Gracias por la invitación.","lee":"spa-SÍ-ba za prigla-SHÉ-ni-ye","dia":6},{"id":"p31","ru":"Прошу́ проще́ния, мне ну́жно поздоро́ваться с колле́гой.","es":"Con permiso, tengo que saludar a un colega.","lee":"pra-SHÚ pra-SHÉ-ni-ya, mnye NÚZH-na pazda-RÓ-vat'-sa s ka-LYÉ-goy","dia":8},{"id":"p32","ru":"Я вас оста́влю на мину́ту.","es":"Lo dejo un momento.","lee":"ya vas as-TÁV-lyu na mi-NÚ-tu","dia":8},{"id":"p33","ru":"Наде́юсь, ещё уви́димся.","es":"Espero que nos veamos de nuevo.","lee":"na-DYÉ-yus', yi-SHCHÓ u-VÍ-dim-sa","dia":8},{"id":"p34","ru":"От и́мени Эквадо́ра…","es":"En nombre del Ecuador…","lee":"ot Í-mi-ni ekva-DÓ-ra","dia":9},{"id":"p35","ru":"От и́мени на́шей делега́ции…","es":"En nombre de nuestra delegación…","lee":"ot Í-mi-ni NÁ-shey dile-GÁ-tsi-i","dia":9},{"id":"p36","ru":"От и́мени Институ́та океаногра́фии…","es":"En nombre del Instituto Oceanográfico…","lee":"ot Í-mi-ni insti-TÚ-ta akiana-GRÁ-fi-i","dia":9},{"id":"p37","ru":"За дру́жбу!","es":"¡Por la amistad!","lee":"za DRÚZH-bu","dia":9},{"id":"p38","ru":"За сотру́дничество!","es":"¡Por la cooperación!","lee":"za sat-RÚD-ni-chist-va","dia":9},{"id":"p39","ru":"За на́ши стра́ны!","es":"¡Por nuestros países!","lee":"za NÁ-shi STRÁ-ny","dia":9},{"id":"p40","ru":"Хо́лодно! Но краси́во.","es":"¡Hace frío! Pero es bonito.","lee":"JÓ-lad-na! no kra-SÍ-va","dia":11},{"id":"p41","ru":"С удово́льствием, спаси́бо.","es":"Con mucho gusto, gracias.","lee":"s uda-VÓL'st-vi-yem, spa-SÍ-ba","dia":11},{"id":"p42","ru":"Ка́к ва́ше о́тчество?","es":"¿Cuál es su patronímico?","lee":"kak VÁ-she ÓT-chist-va","dia":12},{"id":"p43","ru":"Меня́ зову́т Па́бло. Мо́жно про́сто Па́бло.","es":"Me llamo Pablo. Puede llamarme simplemente Pablo.","lee":"mi-NYÁ za-VÚT PÁ-bla. MÓZH-na PRÓS-ta PÁ-bla","dia":12},{"id":"p44","ru":"За вас, Ива́н Петро́вич!","es":"¡Por usted, Iván Petróvich!","lee":"za vas, i-VÁN pit-RÓ-vich","dia":12},{"id":"p45","ru":"Я представля́ю Институ́т океаногра́фии.","es":"Represento al Instituto Oceanográfico.","lee":"ya pritstav-LYÁ-yu insti-TÚT akiana-GRÁ-fi-i","dia":15},{"id":"p46","ru":"О́чень прия́тно быть здесь.","es":"Es un gran gusto estar aquí.","lee":"Ó-chin' pri-YÁT-na byt' zdyes'","dia":15},{"id":"p47","ru":"Наде́юсь на сотру́дничество.","es":"Espero que haya cooperación.","lee":"na-DYÉ-yus' na sat-RÚD-ni-chist-va","dia":16},{"id":"p48","ru":"Э́то для нас о́чень ва́жно.","es":"Esto es muy importante para nosotros.","lee":"É-ta dlya nas Ó-chin' VÁZH-na","dia":16},{"id":"p49","ru":"Бу́дем ра́ды рабо́тать вме́сте.","es":"Estaremos contentos de trabajar juntos.","lee":"BÚ-dim RÁ-dy ra-BÓ-tat' VMYÉS-tye","dia":16},{"id":"p50","ru":"Ду́маю, у нас о́бщие це́ли.","es":"Creo que tenemos objetivos comunes.","lee":"DÚ-ma-yu, u nas Ó-pshi-ye TSÉ-li","dia":16},{"id":"p51","ru":"Обсу́дим по́зже, е́сли позво́лите.","es":"Lo discutimos más tarde, si me permite.","lee":"ap-SÚ-dim PÓ-zzhe, YÉS-li paz-VÓ-li-tye","dia":16},{"id":"p52","ru":"О́чень прия́тно познако́миться.","es":"Encantado de conocerle.","lee":"Ó-chin' pri-YÁT-na paz-na-KÓ-mit-sa","dia":17},{"id":"p53","ru":"Для меня́ э́то больша́я честь.","es":"Para mí es un gran honor.","lee":"dlya mi-NYÁ É-ta bal'-SHÁ-ya chest'","dia":17},{"id":"p54","ru":"Благодарю́ вас за тёплый приём.","es":"Le agradezco la cálida acogida.","lee":"blagada-RYÚ vas za TYÓP-ly pri-YÓM","dia":17},{"id":"p55","ru":"Прошу́ вас.","es":"Adelante, por favor (cediendo la palabra).","lee":"pra-SHÚ vas","dia":17},{"id":"p56","ru":"До ско́рой встре́чи!","es":"¡Hasta pronto!","lee":"da SKÓ-roy FSTRYÉ-chi","dia":30}]},{"id":"basico","nombre":"Básico","desc":"Palabras de supervivencia: preguntas, respuestas cortas y reparación.","items":[{"id":"b01","ru":"да","es":"sí"},{"id":"b02","ru":"нет","es":"no"},{"id":"b03","ru":"хорошо́","es":"bien / de acuerdo","lee":"ja-ra-SHÓ"},{"id":"b04","ru":"пло́хо","es":"mal","lee":"PLÓ-ja"},{"id":"b05","ru":"Мо́жно?","es":"¿Se puede? / ¿Me permite?","lee":"MÓZH-na"},{"id":"b06","ru":"ну́жно","es":"hace falta / es necesario","lee":"NÚZH-na"},{"id":"b07","ru":"Где?","es":"¿Dónde?"},{"id":"b08","ru":"Когда́?","es":"¿Cuándo?","lee":"kag-DÁ"},{"id":"b09","ru":"Ско́лько?","es":"¿Cuánto?","lee":"SKÓL'-ka"},{"id":"b10","ru":"Почему́?","es":"¿Por qué?","lee":"pa-chi-MÚ"},{"id":"b11","ru":"Как?","es":"¿Cómo?"},{"id":"b12","ru":"Что?","es":"¿Qué?","lee":"shto","nota":"чт se pronuncia [sht]."},{"id":"b13","ru":"Кто?","es":"¿Quién?"},{"id":"b14","ru":"здесь / там","es":"aquí / allá","lee":"zdyes' / tam"},{"id":"b15","ru":"Я не зна́ю.","es":"No sé.","lee":"ya ni ZNÁ-yu"},{"id":"b16","ru":"Я понима́ю.","es":"Entiendo.","lee":"ya pa-ni-MÁ-yu"},{"id":"b17","ru":"Повтори́те, пожа́луйста.","es":"Repita, por favor.","lee":"paf-ta-RÍ-tye, pa-ZHÁL-sta"},{"id":"b18","ru":"Как по-ру́сски…?","es":"¿Cómo se dice en ruso…?","lee":"kak pa-RÚS-ki"},{"id":"b19","ru":"Что зна́чит…?","es":"¿Qué significa…?","lee":"shto ZNÁ-chit"},{"id":"b20","ru":"Ничего́ стра́шного.","es":"No pasa nada.","lee":"ni-chi-VÓ STRÁSH-na-va","nota":"г se pronuncia [v] en -его́."},{"id":"b21","ru":"Извини́те.","es":"Disculpe.","lee":"iz-vi-NÍ-tye"},{"id":"b22","ru":"Отли́чно!","es":"¡Excelente!","lee":"at-LÍCH-na"},{"id":"b23","ru":"семья́","es":"familia","lee":"sim'-YÁ"},{"id":"b24","ru":"жена́ / муж","es":"esposa / esposo","lee":"zhe-NÁ / mush"},{"id":"b25","ru":"де́ти","es":"hijos, niños","lee":"DYÉ-ti"},{"id":"b26","ru":"рабо́та","es":"trabajo","lee":"ra-BÓ-ta"},{"id":"b27","ru":"колле́га","es":"colega","lee":"ka-LYÉ-ga"},{"id":"b28","ru":"Я не пью алкого́ль, спаси́бо.","es":"No bebo alcohol, gracias.","lee":"ya ni pyu al-ka-GÓL', spa-SÍ-ba"}]},{"id":"numeros","nombre":"Números","desc":"Cardinales, decenas, centenas, el año y los primeros ordinales.","items":[{"id":"n00","ru":"ноль","es":"0"},{"id":"n01","ru":"оди́н","es":"1","lee":"a-DÍN"},{"id":"n02","ru":"два","es":"2"},{"id":"n03","ru":"три","es":"3"},{"id":"n04","ru":"четы́ре","es":"4","lee":"chi-TÝ-rye"},{"id":"n05","ru":"пять","es":"5","lee":"pyat'"},{"id":"n06","ru":"шесть","es":"6","lee":"shest'"},{"id":"n07","ru":"семь","es":"7","lee":"syem'"},{"id":"n08","ru":"во́семь","es":"8","lee":"VÓ-sim'"},{"id":"n09","ru":"де́вять","es":"9","lee":"DYÉ-vit'"},{"id":"n10","ru":"де́сять","es":"10","lee":"DYÉ-sit'"},{"id":"n11","ru":"оди́ннадцать","es":"11","lee":"a-DÍ-na-tsat'"},{"id":"n12","ru":"двена́дцать","es":"12","lee":"dvi-NÁ-tsat'"},{"id":"n13","ru":"трина́дцать","es":"13","lee":"tri-NÁ-tsat'"},{"id":"n14","ru":"четы́рнадцать","es":"14","lee":"chi-TÝR-na-tsat'"},{"id":"n15","ru":"пятна́дцать","es":"15","lee":"pit-NÁ-tsat'"},{"id":"n16","ru":"шестна́дцать","es":"16","lee":"shis-NÁ-tsat'"},{"id":"n17","ru":"семна́дцать","es":"17","lee":"sim-NÁ-tsat'"},{"id":"n18","ru":"восемна́дцать","es":"18","lee":"va-sim-NÁ-tsat'"},{"id":"n19","ru":"девятна́дцать","es":"19","lee":"di-vit-NÁ-tsat'"},{"id":"n20","ru":"два́дцать","es":"20","lee":"DVÁ-tsat'"},{"id":"n30","ru":"три́дцать","es":"30","lee":"TRÍ-tsat'"},{"id":"n40","ru":"со́рок","es":"40","lee":"SÓ-rak"},{"id":"n50","ru":"пятьдеся́т","es":"50","lee":"pi-dis-YÁT"},{"id":"n60","ru":"шестьдеся́т","es":"60","lee":"shiz-dis-YÁT"},{"id":"n70","ru":"се́мьдесят","es":"70","lee":"SYÉM-di-sit"},{"id":"n80","ru":"во́семьдесят","es":"80","lee":"VÓ-sim-di-sit"},{"id":"n90","ru":"девяно́сто","es":"90","lee":"di-vi-NÓS-ta"},{"id":"n100","ru":"сто","es":"100"},{"id":"n200","ru":"две́сти","es":"200","lee":"DVYÉS-ti"},{"id":"n500","ru":"пятьсо́т","es":"500","lee":"pit-SÓT"},{"id":"n1000","ru":"ты́сяча","es":"1000","lee":"TÝ-si-cha"},{"id":"n1e6","ru":"миллио́н","es":"un millón","lee":"mi-li-ÓN"},{"id":"n2026","ru":"две ты́сячи два́дцать шесто́й год","es":"(el año) 2026","lee":"dvye TÝ-si-chi DVÁ-tsat' shis-TÓY got","nota":"El año se dice con ordinal: «el 2026.º año»."},{"id":"n1o","ru":"пе́рвый","es":"primero","lee":"PYÉR-vy"},{"id":"n2o","ru":"второ́й","es":"segundo","lee":"fta-RÓY"},{"id":"n3o","ru":"тре́тий","es":"tercero","lee":"TRYÉ-tiy"},{"id":"n_cuant","ru":"Ско́лько сто́ит?","es":"¿Cuánto cuesta?","lee":"SKÓL'-ka STÓ-it"},{"id":"n_pers","ru":"два́дцать челове́к","es":"veinte personas","lee":"DVÁ-tsat' chi-la-VYÉK","nota":"Con números, «personas» se dice челове́к, sin cambio."}]},{"id":"dias","nombre":"Días y tiempo","desc":"Los días de la semana y las palabras para situarte en el tiempo.","items":[{"id":"s1","ru":"понеде́льник","es":"lunes","lee":"pa-ni-DYÉL'-nik"},{"id":"s2","ru":"вто́рник","es":"martes","lee":"FTÓR-nik"},{"id":"s3","ru":"среда́","es":"miércoles","lee":"sri-DÁ"},{"id":"s4","ru":"четве́рг","es":"jueves","lee":"chit-VYÉRK"},{"id":"s5","ru":"пя́тница","es":"viernes","lee":"PYÁT-ni-tsa"},{"id":"s6","ru":"суббо́та","es":"sábado","lee":"su-BÓ-ta"},{"id":"s7","ru":"воскресе́нье","es":"domingo","lee":"vas-kri-SYÉN'-ye"},{"id":"s_en1","ru":"в понеде́льник","es":"el lunes (cuándo)","lee":"f pa-ni-DYÉL'-nik"},{"id":"s_en3","ru":"в сре́ду","es":"el miércoles (cuándo)","lee":"f SRYÉ-du","nota":"среда́ → в сре́ду: cambia la terminación y el acento."},{"id":"s_en5","ru":"в пя́тницу","es":"el viernes (cuándo)","lee":"f PYÁT-ni-tsu"},{"id":"s_en6","ru":"в суббо́ту","es":"el sábado (cuándo)","lee":"f su-BÓ-tu"},{"id":"s_hoy","ru":"сего́дня","es":"hoy","lee":"si-VÓD-nya","nota":"г se pronuncia [v]."},{"id":"s_man","ru":"за́втра","es":"mañana","lee":"ZÁF-tra"},{"id":"s_ayer","ru":"вчера́","es":"ayer","lee":"fchi-RÁ"},{"id":"s_pasado","ru":"послеза́втра","es":"pasado mañana","lee":"pas-li-ZÁF-tra"},{"id":"s_sem","ru":"неде́ля","es":"semana","lee":"ni-DYÉ-lya"},{"id":"s_esta","ru":"на э́той неде́ле","es":"esta semana","lee":"na É-tay ni-DYÉ-lye"},{"id":"s_prox","ru":"на сле́дующей неде́ле","es":"la próxima semana","lee":"na SLYÉ-du-yu-shchey ni-DYÉ-lye"},{"id":"s_finde","ru":"выходны́е","es":"fin de semana","lee":"vy-jad-NÝ-ye"},{"id":"s_que","ru":"Како́й сего́дня день?","es":"¿Qué día es hoy?","lee":"ka-KÓY si-VÓD-nya dyen'"},{"id":"s_resp","ru":"Сего́дня пя́тница.","es":"Hoy es viernes.","lee":"si-VÓD-nya PYÁT-ni-tsa"},{"id":"s_man_t","ru":"у́тром / днём / ве́чером / но́чью","es":"por la mañana / al mediodía, de día / por la tarde-noche / de noche","lee":"Ú-tram / dnyom / VYÉ-chi-ram / NÓCH-yu"},{"id":"s_ahora","ru":"сейча́с / пото́м","es":"ahora / después","lee":"si-CHÁS / pa-TÓM"}]},{"id":"meses","nombre":"Meses y fechas","desc":"Los doce meses, «en + mes» y cómo decir la fecha.","items":[{"id":"m01","ru":"янва́рь","es":"enero","lee":"yin-VÁR'"},{"id":"m02","ru":"февра́ль","es":"febrero","lee":"fiv-RÁL'"},{"id":"m03","ru":"март","es":"marzo"},{"id":"m04","ru":"апре́ль","es":"abril","lee":"ap-RYÉL'"},{"id":"m05","ru":"май","es":"mayo"},{"id":"m06","ru":"ию́нь","es":"junio","lee":"i-YÚN'"},{"id":"m07","ru":"ию́ль","es":"julio","lee":"i-YÚL'"},{"id":"m08","ru":"а́вгуст","es":"agosto","lee":"ÁV-gust"},{"id":"m09","ru":"сентя́брь","es":"septiembre","lee":"sin-TYÁBR'"},{"id":"m10","ru":"октя́брь","es":"octubre","lee":"ak-TYÁBR'"},{"id":"m11","ru":"ноя́брь","es":"noviembre","lee":"na-YÁBR'"},{"id":"m12","ru":"дека́брь","es":"diciembre","lee":"di-KÁBR'"},{"id":"m_en1","ru":"в январе́","es":"en enero","lee":"v yin-va-RYÉ","nota":"Los meses en -ь cargan el acento al final: в январе́, в декабре́."},{"id":"m_en5","ru":"в ма́е","es":"en mayo","lee":"v MÁ-ye"},{"id":"m_en12","ru":"в декабре́","es":"en diciembre","lee":"v di-kab-RYÉ"},{"id":"m_mes","ru":"ме́сяц / год","es":"mes / año","lee":"MYÉ-sits / got"},{"id":"m_este","ru":"в э́том году́","es":"este año","lee":"v É-tam ga-DÚ"},{"id":"m_prox","ru":"в сле́дующем году́","es":"el próximo año","lee":"f SLYÉ-du-yu-shchem ga-DÚ"},{"id":"m_fecha","ru":"Како́е сего́дня число́?","es":"¿Qué fecha es hoy?","lee":"ka-KÓ-ye si-VÓD-nya chis-LÓ"},{"id":"m_fecha_r","ru":"Сего́дня пе́рвое октября́.","es":"Hoy es 1 de octubre.","lee":"si-VÓD-nya PYÉR-va-ye ak-tib-RYÁ","nota":"Día en ordinal neutro + mes en genitivo."},{"id":"m_rusia","ru":"двена́дцатое ию́ня — День Росси́и","es":"12 de junio: Día de Rusia","lee":"dvi-NÁ-tsa-ta-ye i-YÚ-nya — dyen' ra-SÍ-i"}]},{"id":"horas","nombre":"Horas","desc":"Preguntar y dar la hora, citas y puntualidad.","items":[{"id":"h_que","ru":"Кото́рый час?","es":"¿Qué hora es?","lee":"ka-TÓ-ry chas"},{"id":"h_que2","ru":"Ско́лько вре́мени?","es":"¿Qué hora es? (coloquial)","lee":"SKÓL'-ka VRYÉ-mi-ni"},{"id":"h_1","ru":"Сейча́с час.","es":"Es la una.","lee":"si-CHÁS chas"},{"id":"h_2","ru":"Два часа́.","es":"Son las dos.","lee":"dva chi-SÁ","nota":"2–4 → часа́; 5–20 → часо́в."},{"id":"h_5","ru":"Пять часо́в.","es":"Son las cinco.","lee":"pyat' chi-SÓF"},{"id":"h_7t","ru":"в семь часо́в ве́чера","es":"a las siete de la noche","lee":"f syem' chi-SÓF VYÉ-chi-ra"},{"id":"h_8m","ru":"в во́семь часо́в утра́","es":"a las ocho de la mañana","lee":"v VÓ-sim' chi-SÓF ut-RÁ"},{"id":"h_media","ru":"в полови́не восьмо́го","es":"a las siete y media","lee":"f pa-la-VÍ-nye vas'-MÓ-va","nota":"Literalmente «a la mitad de la octava»: se nombra la hora que viene."},{"id":"h_medio","ru":"в по́лдень / в по́лночь","es":"al mediodía / a medianoche","lee":"f PÓL-din' / f PÓL-nach"},{"id":"h_dentro","ru":"че́рез час","es":"dentro de una hora","lee":"CHÉ-ris chas"},{"id":"h_media_h","ru":"че́рез полчаса́","es":"dentro de media hora","lee":"CHÉ-ris pal-chi-SÁ"},{"id":"h_min","ru":"пять мину́т","es":"cinco minutos","lee":"pyat' mi-NÚT"},{"id":"h_empieza","ru":"Во ско́лько начина́ется приём?","es":"¿A qué hora empieza la recepción?","lee":"va SKÓL'-ka na-chi-NÁ-it-sa pri-YÓM"},{"id":"h_empieza_r","ru":"Приём начина́ется в семь.","es":"La recepción empieza a las siete.","lee":"pri-YÓM na-chi-NÁ-it-sa f syem'"},{"id":"h_tarde","ru":"Извини́те, я опа́здываю.","es":"Disculpe, llego tarde.","lee":"iz-vi-NÍ-tye, ya a-PÁZ-dy-va-yu"},{"id":"h_temprano","ru":"ра́но / по́здно","es":"temprano / tarde","lee":"RÁ-na / PÓZ-na","nota":"En по́здно la д es muda."}]},{"id":"colores","nombre":"Colores","desc":"Los colores básicos, en masculino, y dos banderas.","items":[{"id":"c01","ru":"кра́сный","es":"rojo","lee":"KRÁS-ny"},{"id":"c02","ru":"си́ний","es":"azul (oscuro)","lee":"SÍ-niy"},{"id":"c03","ru":"голубо́й","es":"celeste, azul claro","lee":"ga-lu-BÓY","nota":"En ruso son dos colores distintos, no dos tonos."},{"id":"c04","ru":"зелёный","es":"verde","lee":"zi-LYÓ-ny"},{"id":"c05","ru":"жёлтый","es":"amarillo","lee":"ZHÓL-ty"},{"id":"c06","ru":"бе́лый","es":"blanco","lee":"BYÉ-ly"},{"id":"c07","ru":"чёрный","es":"negro","lee":"CHÓR-ny"},{"id":"c08","ru":"се́рый","es":"gris","lee":"SYÉ-ry"},{"id":"c09","ru":"кори́чневый","es":"marrón, café","lee":"ka-RÍCH-ni-vy"},{"id":"c10","ru":"ора́нжевый","es":"anaranjado","lee":"a-RÁN-zhe-vy"},{"id":"c11","ru":"фиоле́товый","es":"morado","lee":"fi-a-LYÉ-ta-vy"},{"id":"c12","ru":"ро́зовый","es":"rosado","lee":"RÓ-za-vy"},{"id":"c13","ru":"золото́й","es":"dorado","lee":"za-la-TÓY"},{"id":"c14","ru":"сере́бряный","es":"plateado","lee":"si-RYÉB-ri-ny"},{"id":"c15","ru":"Флаг Эквадо́ра — жёлтый, си́ний и кра́сный.","es":"La bandera del Ecuador es amarilla, azul y roja.","lee":"flak ekva-DÓ-ra — ZHÓL-ty, SÍ-niy i KRÁS-ny"},{"id":"c16","ru":"Флаг Росси́и — бе́лый, си́ний и кра́сный.","es":"La bandera de Rusia es blanca, azul y roja.","lee":"flak ra-SÍ-i — BYÉ-ly, SÍ-niy i KRÁS-ny"},{"id":"c17","ru":"Како́го цве́та…?","es":"¿De qué color es…?","lee":"ka-KÓ-va TSVYÉ-ta"}]},{"id":"comida","nombre":"Comida y bebida","desc":"Lo que se ofrece en una recepción y cómo aceptar o declinar.","items":[{"id":"f01","ru":"вода́","es":"agua","lee":"va-DÁ"},{"id":"f02","ru":"вода́ без га́за / с га́зом","es":"agua sin gas / con gas","lee":"va-DÁ byez GÁ-za / z GÁ-zam"},{"id":"f03","ru":"сок","es":"jugo"},{"id":"f04","ru":"чай","es":"té"},{"id":"f05","ru":"ко́фе","es":"café","lee":"KÓ-fe","nota":"Es masculino: чёрный ко́фе."},{"id":"f06","ru":"молоко́","es":"leche","lee":"ma-la-KÓ"},{"id":"f07","ru":"хлеб","es":"pan","lee":"jlyep"},{"id":"f08","ru":"сыр","es":"queso"},{"id":"f09","ru":"ры́ба","es":"pescado","lee":"RÝ-ba"},{"id":"f10","ru":"мя́со","es":"carne","lee":"MYÁ-sa"},{"id":"f11","ru":"ку́рица","es":"pollo","lee":"KÚ-ri-tsa"},{"id":"f12","ru":"о́вощи","es":"verduras","lee":"Ó-va-shchi"},{"id":"f13","ru":"фру́кты","es":"frutas","lee":"FRÚK-ty"},{"id":"f14","ru":"сала́т","es":"ensalada","lee":"sa-LÁT"},{"id":"f15","ru":"суп","es":"sopa"},{"id":"f16","ru":"десе́рт","es":"postre","lee":"di-SYÉRT"},{"id":"f17","ru":"икра́","es":"caviar","lee":"ik-RÁ"},{"id":"f18","ru":"блины́","es":"blinís (crepes rusos)","lee":"bli-NÝ"},{"id":"f19","ru":"пельме́ни","es":"pelmeni (empanaditas hervidas)","lee":"pil'-MYÉ-ni"},{"id":"f20","ru":"борщ","es":"borsch (sopa de remolacha)","lee":"borshch"},{"id":"f21","ru":"заку́ски","es":"bocaditos, entradas","lee":"za-KÚS-ki"},{"id":"f22","ru":"Угоща́йтесь!","es":"¡Sírvase! (al ofrecer)","lee":"u-ga-SHCHÁY-tis'"},{"id":"f23","ru":"Прия́тного аппети́та!","es":"¡Buen provecho!","lee":"pri-YÁT-na-va a-pi-TÍ-ta"},{"id":"f24","ru":"Мне сок, пожа́луйста.","es":"Para mí un jugo, por favor.","lee":"mnye sok, pa-ZHÁL-sta"},{"id":"f25","ru":"Спаси́бо, я уже́ сыт.","es":"Gracias, ya estoy satisfecho.","lee":"spa-SÍ-ba, ya u-ZHÉ syt","nota":"Forma masculina."},{"id":"f26","ru":"Всё о́чень вку́сно.","es":"Todo está muy rico.","lee":"fsyo Ó-chin' VKÚS-na"},{"id":"f27","ru":"Что э́то?","es":"¿Qué es esto?","lee":"shto É-ta"},{"id":"f28","ru":"Ещё немно́го?","es":"¿Un poco más?","lee":"yi-SHCHÓ nim-NÓ-ga"},{"id":"f29","ru":"Осо́бенно борщ.","es":"Sobre todo el borsch.","lee":"a-SÓ-bin-na borshch"}]},{"id":"diplo","nombre":"Diplomacia","desc":"Cargos, instituciones, tratamientos y fórmulas de protocolo.","items":[{"id":"d01","ru":"посо́льство","es":"embajada","lee":"pa-SÓL'st-va"},{"id":"d02","ru":"посо́л","es":"embajador","lee":"pa-SÓL"},{"id":"d03","ru":"Господи́н посо́л","es":"Señor Embajador","lee":"ga-spa-DÍN pa-SÓL"},{"id":"d04","ru":"Ва́ше превосходи́тельство","es":"Excelencia","lee":"VÁ-she pri-vas-ja-DÍ-til'st-va"},{"id":"d05","ru":"Да́мы и господа́!","es":"¡Señoras y señores!","lee":"DÁ-my i ga-spa-DÁ"},{"id":"d06","ru":"Уважа́емые колле́ги!","es":"¡Estimados colegas!","lee":"u-va-ZHÁ-i-my-ye ka-LYÉ-gi"},{"id":"d07","ru":"Министе́рство иностра́нных дел (МИД)","es":"Ministerio de Relaciones Exteriores","lee":"mi-nis-TYÉRST-va i-nas-TRÁ-nyj dyel (mit)"},{"id":"d08","ru":"Министе́рство оборо́ны","es":"Ministerio de Defensa","lee":"mi-nis-TYÉRST-va a-ba-RÓ-ny"},{"id":"d09","ru":"прави́тельство","es":"gobierno","lee":"pra-VÍ-til'st-va"},{"id":"d10","ru":"госуда́рство","es":"Estado","lee":"ga-su-DÁRST-va"},{"id":"d11","ru":"мини́стр / замести́тель мини́стра","es":"ministro / viceministro","lee":"mi-NÍSTR / za-mis-TÍ-til' mi-NÍS-tra"},{"id":"d12","ru":"консу́льство / ко́нсул","es":"consulado / cónsul","lee":"kan-SÚL'st-va / KÓN-sul"},{"id":"d13","ru":"вое́нно-морско́й атташе́","es":"agregado naval","lee":"va-YÉ-na mars-KÓY a-ta-SHÉ"},{"id":"d14","ru":"глава́ делега́ции","es":"jefe de delegación","lee":"gla-VÁ di-li-GÁ-tsi-i"},{"id":"d15","ru":"перегово́ры","es":"negociaciones","lee":"pi-ri-ga-VÓ-ry"},{"id":"d16","ru":"соглаше́ние","es":"acuerdo","lee":"sa-gla-SHÉ-ni-ye"},{"id":"d17","ru":"мемора́ндум о взаимопонима́нии","es":"memorando de entendimiento","lee":"mi-ma-RÁN-dum a vza-i-ma-pa-ni-MÁ-ni-i"},{"id":"d18","ru":"подписа́ть соглаше́ние","es":"firmar un acuerdo","lee":"pat-pi-SÁT' sa-gla-SHÉ-ni-ye"},{"id":"d19","ru":"официа́льный визи́т","es":"visita oficial","lee":"a-fi-tsi-ÁL'-ny vi-ZÍT"},{"id":"d20","ru":"двусторо́нние отноше́ния","es":"relaciones bilaterales","lee":"dvu-sta-RÓ-ni-ye at-na-SHÉ-ni-ya"},{"id":"d21","ru":"дипломати́ческие отноше́ния","es":"relaciones diplomáticas","lee":"di-pla-ma-TÍ-chis-ki-ye at-na-SHÉ-ni-ya"},{"id":"d22","ru":"национа́льный пра́здник","es":"fiesta nacional","lee":"na-tsi-a-NÁL'-ny PRÁZ-nik","nota":"La д de пра́здник es muda."},{"id":"d23","ru":"Поздравля́ю с Днём Росси́и!","es":"¡Felicitaciones por el Día de Rusia!","lee":"paz-drav-LYÁ-yu z dnyom ra-SÍ-i"},{"id":"d24","ru":"Вот моя́ визи́тная ка́рточка.","es":"Aquí tiene mi tarjeta.","lee":"vot ma-YÁ vi-ZÍT-na-ya KÁR-tach-ka"},{"id":"d25","ru":"перево́дчик","es":"intérprete, traductor","lee":"pi-ri-VÓT-chik"},{"id":"d26","ru":"Разреши́те предста́виться.","es":"Permítame presentarme.","lee":"raz-ri-SHÍ-tye prit-STÁ-vit'-sa"},{"id":"d27","ru":"Позво́льте предста́вить…","es":"Permítame presentarle a…","lee":"paz-VÓL'-tye prit-STÁ-vit'"},{"id":"d28","ru":"Добро́ пожа́ловать!","es":"¡Bienvenido(s)!","lee":"dab-RÓ pa-ZHÁ-la-vat'"},{"id":"d29","ru":"Счастли́вого пути́!","es":"¡Buen viaje!","lee":"shchis-LÍ-va-va pu-TÍ","nota":"La т de счастли́вый es muda."},{"id":"d30","ru":"Обяза́тельно!","es":"¡Sin falta! / ¡Por supuesto!","lee":"a-bi-ZÁ-til'-na"}]},{"id":"antartida","nombre":"Antártida y océano","desc":"Vocabulario del Sistema del Tratado Antártico y del trabajo de INOCAR.","items":[{"id":"a01","ru":"Антаркти́да","es":"la Antártida (continente)","lee":"an-tark-TÍ-da"},{"id":"a02","ru":"Анта́рктика","es":"la Antártica (región)","lee":"an-TÁRK-ti-ka"},{"id":"a03","ru":"Догово́р об Анта́рктике","es":"Tratado Antártico","lee":"da-ga-VÓR ab an-TÁRK-ti-ke"},{"id":"a04","ru":"Консультати́вное совеща́ние по Догово́ру об Анта́рктике","es":"Reunión Consultiva del Tratado Antártico (RCTA)","lee":"kan-sul'-ta-TÍV-na-ye sa-vi-SHCHÁ-ni-ye pa da-ga-VÓ-ru ab an-TÁRK-ti-ke"},{"id":"a05","ru":"консультати́вная сторона́","es":"Parte Consultiva","lee":"kan-sul'-ta-TÍV-na-ya sta-ra-NÁ"},{"id":"a06","ru":"нау́чная ста́нция","es":"estación científica","lee":"na-ÚCH-na-ya STÁN-tsi-ya"},{"id":"a07","ru":"антаркти́ческая экспеди́ция","es":"expedición antártica","lee":"an-tark-TÍ-chis-ka-ya eks-pi-DÍ-tsi-ya"},{"id":"a08","ru":"ледоко́л","es":"rompehielos","lee":"li-da-KÓL"},{"id":"a09","ru":"нау́чно-иссле́довательское су́дно","es":"buque de investigación científica","lee":"na-ÚCH-na i-SLYÉ-da-va-til'-ska-ye SÚD-na"},{"id":"a10","ru":"океаногра́фия","es":"oceanografía","lee":"a-ki-a-na-GRÁ-fi-ya"},{"id":"a11","ru":"лёд / а́йсберг","es":"hielo / iceberg","lee":"lyot / ÁYS-bierk"},{"id":"a12","ru":"Ю́жный океа́н","es":"océano Austral","lee":"YÚZH-ny a-ki-ÁN"},{"id":"a13","ru":"охра́на окружа́ющей среды́","es":"protección del medio ambiente","lee":"aj-RÁ-na a-kru-ZHÁ-yu-shchey sri-DÝ"},{"id":"a14","ru":"измене́ние кли́мата","es":"cambio climático","lee":"iz-mi-NYÉ-ni-ye KLÍ-ma-ta"},{"id":"a15","ru":"нау́чное сотру́дничество","es":"cooperación científica","lee":"na-ÚCH-na-ye sat-RÚD-ni-chist-va"},{"id":"a16","ru":"поля́рник","es":"expedicionario polar","lee":"pa-LYÁR-nik"},{"id":"a17","ru":"Вое́нно-морски́е си́лы Эквадо́ра","es":"Armada del Ecuador","lee":"va-YÉ-na mars-KÍ-ye SÍ-ly ekva-DÓ-ra"},{"id":"a18","ru":"пингви́н","es":"pingüino","lee":"pin-GVÍN"},{"id":"a19","ru":"Я занима́юсь антаркти́ческими вопро́сами.","es":"Me ocupo de asuntos antárticos.","lee":"ya za-ni-MÁ-yus' an-tark-TÍ-chis-ki-mi vap-RÓ-sa-mi"},{"id":"a20","ru":"У Эквадо́ра есть нау́чная ста́нция в Антаркти́де.","es":"Ecuador tiene una estación científica en la Antártida.","lee":"u ekva-DÓ-ra yest' na-ÚCH-na-ya STÁN-tsi-ya v an-tark-TÍ-dye"},{"id":"a21","ru":"антаркти́ческий сезо́н","es":"temporada antártica","lee":"an-tark-TÍ-chis-kiy si-ZÓN"}]},{"id":"muletillas","nombre":"Muletillas y puentes","desc":"Para ganar tiempo, enlazar ideas y sonar natural mientras piensas.","items":[{"id":"u01","ru":"Ну…","es":"Bueno… (apertura suave)","lee":"nu"},{"id":"u02","ru":"Зна́ете, …","es":"¿Sabe?, / Mire, …","lee":"ZNÁ-i-tye"},{"id":"u03","ru":"Как сказа́ть…","es":"Cómo decirlo…","lee":"kak ska-ZÁT'"},{"id":"u04","ru":"Че́стно говоря́, …","es":"Honestamente, …","lee":"CHÉS-na ga-va-RYÁ","nota":"La т de че́стно es muda."},{"id":"u05","ru":"Коне́чно!","es":"¡Por supuesto!","lee":"ka-NYÉSH-na","nota":"Aquí чн se pronuncia [shn]."},{"id":"u06","ru":"Зна́чит…","es":"Entonces… / o sea…","lee":"ZNÁ-chit"},{"id":"u07","ru":"Вот.","es":"Eso es. / Pues así. (cierra una idea)","lee":"vot"},{"id":"u08","ru":"В о́бщем…","es":"En resumen… / En fin…","lee":"v Ó-pshchem"},{"id":"u09","ru":"Кста́ти, …","es":"Por cierto, …","lee":"KSTÁ-ti"},{"id":"u10","ru":"То есть…","es":"Es decir…","lee":"ta yest'"},{"id":"u11","ru":"Понима́ете, …","es":"Verá usted, …","lee":"pa-ni-MÁ-i-tye"},{"id":"u12","ru":"Де́ло в том, что…","es":"Lo que pasa es que…","lee":"DYÉ-la f tom, shta"},{"id":"u13","ru":"Одну́ секу́нду…","es":"Un segundo…","lee":"ad-NÚ si-KÚN-du"},{"id":"u14","ru":"Мину́точку…","es":"Un momentito…","lee":"mi-NÚ-tach-ku"},{"id":"u15","ru":"Дава́йте поду́маем…","es":"Pensémoslo…","lee":"da-VÁY-tye pa-DÚ-ma-im"},{"id":"u16","ru":"Мо́жет быть.","es":"Quizás.","lee":"MÓ-zhet byt'"},{"id":"u17","ru":"Наве́рное.","es":"Probablemente.","lee":"na-VYÉR-na-ye"},{"id":"u18","ru":"Пра́вда?","es":"¿De verdad?","lee":"PRÁV-da"},{"id":"u19","ru":"Вот и́менно!","es":"¡Exacto!","lee":"vot Í-min-na"},{"id":"u20","ru":"Интере́сно!","es":"¡Qué interesante!","lee":"in-ti-RYÉS-na"},{"id":"u21","ru":"Я согла́сен.","es":"Estoy de acuerdo.","lee":"ya sag-LÁ-sin","nota":"Forma masculina."},{"id":"u22","ru":"Как бы вам сказа́ть…","es":"Cómo se lo diría…","lee":"kak by vam ska-ZÁT'"},{"id":"u23","ru":"Ины́ми слова́ми…","es":"En otras palabras…","lee":"i-NÝ-mi sla-VÁ-mi"},{"id":"u24","ru":"Ита́к…","es":"Así pues… (para retomar)","lee":"i-TÁK"},{"id":"u25","ru":"Кро́ме того́, …","es":"Además, …","lee":"KRÓ-mye ta-VÓ"},{"id":"u26","ru":"С одно́й стороны́… с друго́й стороны́…","es":"Por un lado… por otro…","lee":"s ad-NÓY sta-ra-NÝ… z dru-GÓY sta-ra-NÝ"}]}]}</script>
+<script type="application/json" id="escenarios">{"escenarios":[{"id":"coctel","nombre":"Cóctel de recepción","desc":"Recepción general: saludo, presentación, preguntas del anfitrión, comida y cierre.","dias":[7,14],"turnos":[{"tema":"Saludo","pool":[{"ru":"До́брый ве́чер! Ра́ды вас ви́деть.","es":"¡Buenas noches! Nos alegra verle.","resp":[{"ru":"До́брый ве́чер! Спаси́бо за приглаше́ние.","es":"¡Buenas noches! Gracias por la invitación.","ids":["p01","p30"]}]},{"ru":"Здра́вствуйте! Добро́ пожа́ловать!","es":"¡Buenas! ¡Bienvenido!","resp":[{"ru":"Здра́вствуйте! Спаси́бо, о́чень прия́тно.","es":"¡Buenas! Gracias, muy amable.","ids":["p02","p03"]}]}]},{"tema":"Presentación","pool":[{"ru":"Разреши́те предста́виться: Серге́й Ива́нович Орло́в.","es":"Permítame presentarme: Serguéi Ivánovich Orlov.","resp":[{"ru":"О́чень прия́тно, Серге́й Ива́нович. Меня́ зову́т Па́бло.","es":"Mucho gusto, Serguéi Ivánovich. Me llamo Pablo.","ids":["p03","p43"]}]},{"ru":"Как вас зову́т?","es":"¿Cómo se llama?","resp":[{"ru":"Меня́ зову́т Па́бло. Мо́жно про́сто Па́бло.","es":"Me llamo Pablo. Puede llamarme simplemente Pablo.","ids":["p43"]}]}]},{"tema":"Origen","pool":[{"ru":"Отку́да вы?","es":"¿De dónde es usted?","resp":[{"ru":"Я из Эквадо́ра, из Гуая́киля.","es":"Soy del Ecuador, de Guayaquil.","ids":["p07","p08"]}]},{"ru":"Вы из Испа́нии?","es":"¿Es usted de España?","resp":[{"ru":"Нет, я из Эквадо́ра.","es":"No, soy del Ecuador.","ids":["p07"]}]}]},{"tema":"El idioma","pool":[{"ru":"Вы говори́те по-ру́сски?","es":"¿Habla usted ruso?","resp":[{"ru":"Немно́го. О́чень немно́го.","es":"Un poco. Muy poco.","ids":["p11"],"sigue":{"ru":"Но вы хорошо́ говори́те!","es":"¡Pero habla bien!","resp":[{"ru":"Спаси́бо! Я то́лько на́чал учи́ть ру́сский.","es":"¡Gracias! Apenas empecé a aprender ruso.","ids":["p19"]}]}},{"ru":"Извини́те, я пло́хо говорю́ по-ру́сски.","es":"Disculpe, hablo mal el ruso.","ids":["p18"],"sigue":{"ru":"Ничего́ стра́шного! Мо́жно по-англи́йски.","es":"¡No pasa nada! Podemos hablar en inglés.","resp":[{"ru":"Спаси́бо! Но я хочу́ попро́бовать по-ру́сски.","es":"¡Gracias! Pero quiero intentarlo en ruso.","ids":[]}]}}]}]},{"tema":"Impresiones","pool":[{"ru":"Ка́к вам Москва́?","es":"¿Qué le parece Moscú?","resp":[{"ru":"Прекра́сный го́род!","es":"¡Una ciudad magnífica!","ids":["p13"]}]},{"ru":"Ка́к вам пого́да?","es":"¿Qué le parece el clima?","resp":[{"ru":"Хо́лодно! Но краси́во.","es":"¡Hace frío! Pero es bonito.","ids":["p40"]}]},{"ru":"Ка́к вам приём?","es":"¿Qué le parece la recepción?","resp":[{"ru":"Прекра́сный ве́чер, спаси́бо.","es":"Una velada magnífica, gracias.","ids":["p27"]}]}]},{"tema":"Comida y bebida","pool":[{"ru":"Угоща́йтесь, пожа́луйста! Попро́буйте блины́ с икро́й.","es":"¡Sírvase, por favor! Pruebe los blinís con caviar.","resp":[{"ru":"С удово́льствием, спаси́бо.","es":"Con mucho gusto, gracias.","ids":["p41","f22"],"sigue":{"ru":"Ну как?","es":"¿Y qué tal?","resp":[{"ru":"О́чень вку́сно!","es":"¡Muy rico!","ids":["p28"]}]}}]},{"ru":"Что вы бу́дете пить? Вино́?","es":"¿Qué va a tomar? ¿Vino?","resp":[{"ru":"Спаси́бо, я не пью алкого́ль. Мне сок, пожа́луйста.","es":"Gracias, no bebo alcohol. Para mí un jugo, por favor.","ids":["b28","f24"]}]}]},{"tema":"Cierre","pool":[{"ru":"Бы́ло о́чень прия́тно познако́миться.","es":"Ha sido un gusto conocerle.","resp":[{"ru":"Мне то́же! Наде́юсь, ещё уви́димся.","es":"¡Igualmente! Espero que nos veamos de nuevo.","ids":["p33"]}]},{"ru":"Мне пора́. До свида́ния!","es":"Ya me tengo que ir. ¡Adiós!","resp":[{"ru":"Бы́ло о́чень прия́тно! До ско́рой встре́чи!","es":"¡Ha sido un placer! ¡Hasta pronto!","ids":["p23","p56"]}]}]}]},{"id":"dia_rusia","nombre":"Día de Rusia en la embajada","desc":"Recepción por el 12 de junio en la embajada rusa en Quito, con brindis.","dias":[9,13,21],"turnos":[{"tema":"Llegada","pool":[{"ru":"Добро́ пожа́ловать в посо́льство! Ра́ды, что вы пришли́.","es":"¡Bienvenido a la embajada! Nos alegra que haya venido.","resp":[{"ru":"Спаси́бо за приглаше́ние, господи́н посо́л. Поздравля́ю с Днём Росси́и!","es":"Gracias por la invitación, señor Embajador. ¡Felicitaciones por el Día de Rusia!","ids":["p30","d03","d23"]}]}]},{"tema":"Dónde vive","pool":[{"ru":"Вы живёте в Ки́то?","es":"¿Vive usted en Quito?","resp":[{"ru":"Нет, я из Гуая́киля.","es":"No, soy de Guayaquil.","ids":["p08"]}]},{"ru":"Вы давно́ в Ки́то?","es":"¿Lleva mucho tiempo en Quito?","resp":[{"ru":"Нет, недо́лго. Я из Гуая́киля.","es":"No, poco tiempo. Soy de Guayaquil.","ids":["p17","p08"]}]}]},{"tema":"Institución","pool":[{"ru":"Вы из министе́рства?","es":"¿Es usted del ministerio?","resp":[{"ru":"Нет, я представля́ю Институ́т океаногра́фии.","es":"No, represento al Instituto Oceanográfico.","ids":["p45"]}]},{"ru":"Где вы рабо́таете?","es":"¿Dónde trabaja?","resp":[{"ru":"В Институ́те океаногра́фии. Я занима́юсь антаркти́ческими вопро́сами.","es":"En el Instituto Oceanográfico. Me ocupo de asuntos antárticos.","ids":["a19"]}]}]},{"tema":"Brindis","pool":[{"ru":"Предлага́ю тост! Ска́жете не́сколько слов?","es":"¡Propongo un brindis! ¿Diría unas palabras?","resp":[{"ru":"С удово́льствием. От и́мени Эквадо́ра — за дру́жбу!","es":"Con mucho gusto. En nombre del Ecuador, ¡por la amistad!","ids":["p41","p34","p37"]},{"ru":"От и́мени на́шей делега́ции — за сотру́дничество!","es":"En nombre de nuestra delegación, ¡por la cooperación!","ids":["p35","p38"]}]}]},{"tema":"Cocina rusa","pool":[{"ru":"Как вам ру́сская ку́хня?","es":"¿Qué le parece la cocina rusa?","resp":[{"ru":"О́чень вку́сно! Осо́бенно борщ.","es":"¡Muy rica! Sobre todo el borsch.","ids":["p28","f29"]}]}]},{"tema":"Cierre","pool":[{"ru":"Наде́юсь, уви́димся на сле́дующем мероприя́тии.","es":"Espero que nos veamos en el próximo evento.","resp":[{"ru":"Обяза́тельно! Бы́ло о́чень прия́тно.","es":"¡Sin falta! Ha sido un placer.","ids":["d30","p23"]}]}]}]},{"id":"rcta","nombre":"Al margen de la RCTA","desc":"Pausa de café en la Reunión Consultiva del Tratado Antártico con un delegado ruso.","dias":[16,22,24],"turnos":[{"tema":"Contacto","pool":[{"ru":"Здра́вствуйте! Вы то́же на Консультати́вном совеща́нии?","es":"¡Buenos días! ¿Usted también está en la Reunión Consultiva?","resp":[{"ru":"Здра́вствуйте! Да, я в делега́ции Эквадо́ра.","es":"¡Buenos días! Sí, estoy en la delegación del Ecuador.","ids":["p02","a04"]}]}]},{"tema":"A qué se dedica","pool":[{"ru":"Чем вы занима́етесь?","es":"¿A qué se dedica?","resp":[{"ru":"Я занима́юсь антаркти́ческими вопро́сами в Институ́те океаногра́фии.","es":"Me ocupo de asuntos antárticos en el Instituto Oceanográfico.","ids":["a19"]}]}]},{"tema":"La estación","pool":[{"ru":"У Эквадо́ра есть ста́нция в Антаркти́де?","es":"¿Ecuador tiene una estación en la Antártida?","resp":[{"ru":"Да, есть. Нау́чная ста́нция «Пе́дро Висе́нте Мальдона́до».","es":"Sí. La estación científica «Pedro Vicente Maldonado».","ids":["a06","a20"],"sigue":{"ru":"А когда́ вы отправля́ете экспеди́цию?","es":"¿Y cuándo envían la expedición?","resp":[{"ru":"Обы́чно в декабре́ и́ли в январе́.","es":"Normalmente en diciembre o en enero.","ids":["m_en12","m_en1"]}]}}]}]},{"tema":"La sesión","pool":[{"ru":"Как вам сего́дняшнее заседа́ние?","es":"¿Qué le pareció la sesión de hoy?","resp":[{"ru":"О́чень интере́сно. Э́то для нас о́чень ва́жно.","es":"Muy interesante. Esto es muy importante para nosotros.","ids":["u20","p48"]}]}]},{"tema":"Tema técnico","pool":[{"ru":"Мы хоте́ли бы обсуди́ть нау́чное сотру́дничество в Ю́жном океа́не.","es":"Quisiéramos conversar sobre cooperación científica en el océano Austral.","resp":[{"ru":"Отли́чная иде́я! Обсу́дим по́зже, е́сли позво́лите.","es":"¡Excelente idea! Lo conversamos más tarde, si me permite.","ids":["b22","p51"]},{"ru":"Бу́дем ра́ды рабо́тать вме́сте.","es":"Estaremos contentos de trabajar juntos.","ids":["p49"]}]}]},{"tema":"Tarjetas","pool":[{"ru":"Вот моя́ визи́тка.","es":"Aquí tiene mi tarjeta.","resp":[{"ru":"Спаси́бо! А вот моя́ визи́тная ка́рточка.","es":"¡Gracias! Y aquí tiene la mía.","ids":["d24"]}]}]},{"tema":"Cierre","pool":[{"ru":"Бы́ло о́чень прия́тно. Уви́димся на заседа́нии!","es":"Ha sido un gusto. ¡Nos vemos en la sesión!","resp":[{"ru":"Мне то́же. Наде́юсь на сотру́дничество!","es":"Igualmente. ¡Espero que cooperemos!","ids":["p47"]}]}]}]},{"id":"bilateral","nombre":"Visita bilateral en Guayaquil","desc":"Recibes en INOCAR a una delegación científica rusa: horas, cifras y fechas.","dias":[10,19,27],"turnos":[{"tema":"Bienvenida","pool":[{"ru":"Здра́вствуйте! Мы из Институ́та океаноло́гии Росси́йской акаде́мии нау́к.","es":"¡Buenos días! Somos del Instituto de Oceanología de la Academia Rusa de Ciencias.","resp":[{"ru":"Добро́ пожа́ловать в Гуая́киль! О́чень прия́тно.","es":"¡Bienvenidos a Guayaquil! Mucho gusto.","ids":["d28","p03"]}]}]},{"tema":"El clima","pool":[{"ru":"У вас всегда́ так жа́рко?","es":"¿Aquí siempre hace tanto calor?","resp":[{"ru":"Да, здесь всегда́ жа́рко! Но у́тром прия́тно.","es":"¡Sí, aquí siempre hace calor! Pero por la mañana es agradable.","ids":["s_man_t"]}]}]},{"tema":"La hora","pool":[{"ru":"Когда́ начина́ется встре́ча?","es":"¿Cuándo empieza la reunión?","resp":[{"ru":"В де́сять часо́в утра́.","es":"A las diez de la mañana.","ids":["n10","h_8m"]},{"ru":"Че́рез полчаса́.","es":"Dentro de media hora.","ids":["h_media_h"]}]},{"ru":"Кото́рый час?","es":"¿Qué hora es?","resp":[{"ru":"Сейча́с два часа́.","es":"Son las dos.","ids":["h_que","h_2"]}]}]},{"tema":"Cifras","pool":[{"ru":"Ско́лько челове́к в ва́шей экспеди́ции?","es":"¿Cuántas personas hay en su expedición?","resp":[{"ru":"Приме́рно два́дцать челове́к.","es":"Unas veinte personas.","ids":["n_pers"]}]},{"ru":"Ско́лько лет рабо́тает ва́ша ста́нция?","es":"¿Cuántos años lleva funcionando su estación?","resp":[{"ru":"Бо́льше тридцати́ лет.","es":"Más de treinta años.","ids":["n30"]}]}]},{"tema":"Fechas","pool":[{"ru":"Когда́ отправля́ется экспеди́ция?","es":"¿Cuándo zarpa la expedición?","resp":[{"ru":"В декабре́.","es":"En diciembre.","ids":["m_en12"]},{"ru":"В нача́ле января́.","es":"A comienzos de enero.","ids":["m01"]}]},{"ru":"Мы мо́жем встре́титься в сре́ду?","es":"¿Podemos reunirnos el miércoles?","resp":[{"ru":"Коне́чно! В сре́ду в три часа́?","es":"¡Por supuesto! ¿El miércoles a las tres?","ids":["u05","s_en3"]}]}]},{"tema":"Acuerdo","pool":[{"ru":"Мо́жно подписа́ть мемора́ндум в сле́дующем году́?","es":"¿Podríamos firmar el memorando el próximo año?","resp":[{"ru":"Ду́маю, да. Э́то для нас о́чень ва́жно.","es":"Creo que sí. Esto es muy importante para nosotros.","ids":["m_prox","p48"]},{"ru":"Как сказа́ть… Обсу́дим по́зже, е́сли позво́лите.","es":"Cómo decirlo… Lo conversamos más tarde, si me permite.","ids":["u03","p51"]}]}]},{"tema":"Despedida","pool":[{"ru":"Спаси́бо за тёплый приём!","es":"¡Gracias por la cálida acogida!","resp":[{"ru":"Спаси́бо вам! Счастли́вого пути́!","es":"¡Gracias a ustedes! ¡Buen viaje!","ids":["d29"]}]}]}]},{"id":"senior","nombre":"Figura senior","desc":"Te presentan a un viceministro: tratamiento con patronímico, registro alto y una pregunta difícil.","dias":[17,24,28],"turnos":[{"tema":"Presentación","pool":[{"ru":"Позво́льте предста́вить: замести́тель мини́стра, Влади́мир Никола́евич.","es":"Permítame presentarle al viceministro, Vladímir Nikoláievich.","resp":[{"ru":"О́чень прия́тно познако́миться, Влади́мир Никола́евич. Для меня́ э́то больша́я честь.","es":"Encantado de conocerle, Vladímir Nikoláievich. Para mí es un gran honor.","ids":["p52","p53"]}]}]},{"tema":"Bienvenida","pool":[{"ru":"Добро́ пожа́ловать. Как вам наш го́род?","es":"Bienvenido. ¿Qué le parece nuestra ciudad?","resp":[{"ru":"Благодарю́ вас за тёплый приём. Прекра́сный го́род!","es":"Le agradezco la cálida acogida. ¡Una ciudad magnífica!","ids":["p54","p13"]}]}]},{"tema":"Primera vez","pool":[{"ru":"Вы впервы́е в Росси́и?","es":"¿Es su primera vez en Rusia?","resp":[{"ru":"Да, пе́рвый раз.","es":"Sí, la primera vez.","ids":["p15"]},{"ru":"Нет, второ́й раз.","es":"No, es la segunda vez.","ids":["n2o"]}]}]},{"tema":"Cooperación","pool":[{"ru":"Как вы оце́ниваете на́ше сотру́дничество?","es":"¿Cómo valora nuestra cooperación?","resp":[{"ru":"Ду́маю, у нас о́бщие це́ли.","es":"Creo que tenemos objetivos comunes.","ids":["p50"]},{"ru":"Наде́юсь на сотру́дничество. Э́то для нас о́чень ва́жно.","es":"Espero que haya cooperación. Es muy importante para nosotros.","ids":["p47","p48"]}]}]},{"tema":"Pregunta difícil","pool":[{"ru":"Каки́е у вас пла́ны на сле́дующий антаркти́ческий сезо́н?","es":"¿Qué planes tienen para la próxima temporada antártica?","rapido":true,"resp":[{"ru":"Извини́те, я пло́хо говорю́ по-ру́сски. Дава́йте продо́лжим по-англи́йски?","es":"Disculpe, hablo mal el ruso. ¿Seguimos en inglés?","ids":["p18","p22"]},{"ru":"Как сказа́ть… Мы пла́нируем экспеди́цию в декабре́.","es":"Cómo decirlo… Planeamos una expedición en diciembre.","ids":["u03","m_en12","a21"]}]}]},{"tema":"Brindis","pool":[{"ru":"Прошу́ вас, скажи́те тост.","es":"Por favor, diga usted un brindis.","resp":[{"ru":"От и́мени Эквадо́ра — за вас, Влади́мир Никола́евич!","es":"En nombre del Ecuador, ¡por usted, Vladímir Nikoláievich!","ids":["p34","p44"]}]}]},{"tema":"Se retira","pool":[{"ru":"Извини́те, меня́ ждут.","es":"Disculpe, me esperan.","resp":[{"ru":"Коне́чно. Бы́ло о́чень прия́тно!","es":"Por supuesto. ¡Ha sido un placer!","ids":["u05","p23"]},{"ru":"Благодарю́ вас. До свида́ния!","es":"Se lo agradezco. ¡Adiós!","ids":["p06"]}]}]}]}],"complicaciones":[{"ru":"А вы уже́ бы́ли в Большо́м теа́тре? Там сейча́с идёт «Лебеди́ное о́зеро»!","es":"¿Ya fue al Teatro Bolshói? ¡Ahora dan «El lago de los cisnes»!","rapido":true,"resp":[{"ru":"Прости́те, я не по́нял. Помедле́ннее, пожа́луйста.","es":"Perdón, no entendí. Más despacio, por favor.","ids":["p21","p20"]},{"ru":"Нет, ещё нет. Но о́чень хочу́!","es":"No, todavía no. ¡Pero tengo muchas ganas!","ids":[]}]},{"ru":"Па́бло, вас ждёт посо́л!","es":"Pablo, ¡le espera el embajador!","resp":[{"ru":"Прошу́ проще́ния, мне ну́жно поздоро́ваться с колле́гой.","es":"Con permiso, tengo que saludar a un colega.","ids":["p31"]},{"ru":"Извини́те, я вас оста́влю на мину́ту.","es":"Disculpe, lo dejo un momento.","ids":["b21","p32"]}]},{"ru":"Ещё немно́го? Попро́буйте пельме́ни!","es":"¿Un poco más? ¡Pruebe los pelmeni!","resp":[{"ru":"С удово́льствием, спаси́бо.","es":"Con mucho gusto, gracias.","ids":["p41"]},{"ru":"Спаси́бо, я уже́ сыт.","es":"Gracias, ya estoy satisfecho.","ids":["f25"]}]},{"ru":"Кото́рый час? Мне ну́жно уходи́ть.","es":"¿Qué hora es? Tengo que irme.","resp":[{"ru":"Сейча́с де́вять часо́в.","es":"Son las nueve.","ids":["h_que","n09"]},{"ru":"Полови́на девя́того.","es":"Son las ocho y media.","ids":["h_media"]}]},{"ru":"Како́го цве́та флаг Эквадо́ра?","es":"¿De qué color es la bandera del Ecuador?","resp":[{"ru":"Жёлтый, си́ний и кра́сный.","es":"Amarilla, azul y roja.","ids":["c15","c17"]}]},{"ru":"Вы когда́ уезжа́ете? В пя́тницу?","es":"¿Cuándo se va? ¿El viernes?","resp":[{"ru":"Нет, в суббо́ту.","es":"No, el sábado.","ids":["s_en6"]},{"ru":"Да, в пя́тницу у́тром.","es":"Sí, el viernes por la mañana.","ids":["s_en5"]}]},{"ru":"Кста́ти, вы зна́ете, где здесь гардеро́б?","es":"Por cierto, ¿sabe dónde está el guardarropa?","rapido":true,"resp":[{"ru":"Извини́те, я не зна́ю.","es":"Disculpe, no sé.","ids":["b15"]},{"ru":"Повтори́те, пожа́луйста.","es":"Repita, por favor.","ids":["b17"]}]}]}</script>
+<script id="repaso">
+// ---------- Repaso espaciado, pronunciación, simulador, diagnóstico, Anki y tarjeta de bolsillo ----------
+// Estado propio en REPASO_KEY; no toca la clave del progreso de los 30 días.
+const VOCAB = JSON.parse(document.getElementById('vocab').textContent);
+const ESC = JSON.parse(document.getElementById('escenarios').textContent);
+const ITEMS = {};
+const ORDEN = [];
+VOCAB.mazos.forEach(m=>m.items.forEach(it=>{ it.mazo = m.id; ITEMS[it.id] = it; ORDEN.push(it.id); }));
+const MAZO = {};
+VOCAB.mazos.forEach(m=>{ MAZO[m.id] = m; });
+const REPASO_KEY = 'ruso_recepciones_repaso_v1';
+const MIN = 60000, DIA = 86400000;
+const PASOS = [1, 10]; // minutos de los pasos de aprendizaje
+const CONGELA_MS = 3000; // silencio que cuenta como congelamiento (Día 7)
+const ANKI_URL = 'http://127.0.0.1:8765';
+const ANKI_MODELO = 'Ruso Recepciones';
+const ANKI_RAIZ = 'Ruso Recepciones';
+const TARJETA_GUION = ['p01','p43','p07','p45','p30','p19','p23','p56'];
+const TARJETA_SALIDAS = ['p20','p21','u03','p31'];
+
+function repasoDefault(){
+  return { v:1, cards:{}, log:[], nuevas:{f:'', n:0}, pron:{}, sim:[], forzar:[],
+    ajustes:{ limite:15, dir:'es-ru', mazos:VOCAB.mazos.map(m=>m.id) } };
+}
+function cargarRepaso(){
+  try{
+    const r = JSON.parse(localStorage.getItem(REPASO_KEY) || 'null');
+    if(r && r.v===1){
+      const d = repasoDefault();
+      return Object.assign(d, r, { ajustes:Object.assign(d.ajustes, r.ajustes||{}) });
+    }
+  }catch(e){}
+  return repasoDefault();
+}
+let R = cargarRepaso();
+function guardarRepaso(){ try{ localStorage.setItem(REPASO_KEY, JSON.stringify(R)); }catch(e){} }
+
+function escR(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function sinAcento(s){ return String(s||'').replace(/́/g,''); }
+function fechaDe(t){ const d = new Date(t); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function inicioDia(t){ const d = new Date(t); d.setHours(0,0,0,0); return d.getTime(); }
+function finDia(t){ return inicioDia(t) + DIA - 1; }
+
+// ---------- Programador (SM-2 con pasos de aprendizaje) ----------
+// g: 1 Otra vez, 2 Difícil, 3 Bien, 4 Fácil. Devuelve una tarjeta nueva, sin modificar la original.
+function venceEnDias(now, ivl){ return inicioDia(now) + ivl*DIA + 4*3600000; }
+function graduar(c, ivl, now){ c.ivl = ivl; c.paso = 0; delete c.rel; c.due = venceEnDias(now, ivl); return c; }
+function programar(orig, g, now){
+  const c = orig ? Object.assign({}, orig) : { ivl:0, ease:2.5, reps:0, lapses:0, paso:0, due:now };
+  c.reps++; c.last = now; c.ult = g;
+  if(c.ivl===0){
+    const base = c.rel ? Math.max(1, c.relIvl||1) : 1;
+    if(g===1){ c.paso = 0; c.due = now + PASOS[0]*MIN; }
+    else if(g===2){ c.due = now + PASOS[Math.min(c.paso, PASOS.length-1)]*MIN; }
+    else if(g===3){
+      c.paso++;
+      if(c.paso >= PASOS.length) return graduar(c, base, now);
+      c.due = now + PASOS[c.paso]*MIN;
+    }
+    else return graduar(c, Math.max(c.rel ? base+1 : 4, base), now);
+    return c;
+  }
+  if(g===1){
+    c.lapses++; c.ease = Math.max(1.3, c.ease-0.2);
+    c.relIvl = Math.max(1, Math.round(c.ivl*0.5));
+    c.ivl = 0; c.paso = PASOS.length-1; c.rel = true;
+    c.due = now + PASOS[PASOS.length-1]*MIN;
+    return c;
+  }
+  let ivl;
+  if(g===2){ ivl = Math.max(c.ivl+1, Math.round(c.ivl*1.2)); c.ease = Math.max(1.3, c.ease-0.15); }
+  else if(g===3){ ivl = Math.max(c.ivl+1, Math.round(c.ivl*c.ease)); }
+  else { ivl = Math.max(c.ivl+2, Math.round(c.ivl*c.ease*1.3)); c.ease += 0.15; }
+  c.ivl = Math.min(ivl, 3650);
+  c.due = venceEnDias(now, c.ivl);
+  return c;
+}
+function fmtIntervalo(ms){
+  if(ms < 60*MIN) return Math.max(1, Math.round(ms/MIN))+' min';
+  if(ms < DIA) return Math.round(ms/(60*MIN))+' h';
+  const d = Math.round(ms/DIA);
+  if(d < 31) return d+' d';
+  if(d < 365) return Math.round(d/30)+' m';
+  return (d/365).toFixed(1).replace('.',',')+' a';
+}
+
+// ---------- Cola del día ----------
+function idsActivos(){ const s = new Set(R.ajustes.mazos); return ORDEN.filter(id=>s.has(ITEMS[id].mazo)); }
+function nuevasRestantes(now){
+  const usadas = R.nuevas.f===fechaDe(now) ? R.nuevas.n : 0;
+  return Math.max(0, R.ajustes.limite - usadas);
+}
+function cola(now){
+  const aprendiendo = [], repasos = [], nuevas = [], pronto = [];
+  idsActivos().forEach(id=>{
+    const c = R.cards[id];
+    if(!c){ nuevas.push(id); return; }
+    if(c.ivl===0){ if(c.due<=now) aprendiendo.push(id); else if(c.due<=now+20*MIN) pronto.push(id); }
+    else if(c.due<=finDia(now)) repasos.push(id);
+  });
+  const porVenc = (a,b)=>R.cards[a].due-R.cards[b].due;
+  aprendiendo.sort(porVenc); repasos.sort(porVenc); pronto.sort(porVenc);
+  return { aprendiendo, repasos, nuevas:nuevas.slice(0, nuevasRestantes(now)), pronto };
+}
+let turnoNuevas = 0;
+function siguienteTarjeta(now){
+  R.forzar = (R.forzar||[]).filter(id=>ITEMS[id]);
+  if(R.forzar.length) return { id:R.forzar[0], tipo:'refuerzo' };
+  const q = cola(now);
+  if(q.aprendiendo.length) return { id:q.aprendiendo[0], tipo:'aprendiendo' };
+  if(q.repasos.length && !(q.nuevas.length && turnoNuevas%4===3)){ turnoNuevas++; return { id:q.repasos[0], tipo:'repaso' }; }
+  if(q.nuevas.length){ turnoNuevas++; return { id:q.nuevas[0], tipo:'nueva' }; }
+  if(q.pronto.length) return { id:q.pronto[0], tipo:'aprendiendo' };
+  return null;
+}
+function calificar(id, g, now){
+  const nueva = !R.cards[id];
+  R.cards[id] = programar(R.cards[id], g, now);
+  if(nueva){
+    if(R.nuevas.f!==fechaDe(now)) R.nuevas = { f:fechaDe(now), n:0 };
+    R.nuevas.n++;
+  }
+  const i = (R.forzar||[]).indexOf(id);
+  if(i>=0) R.forzar.splice(i,1);
+  R.log.push({ t:now, id, g });
+  if(R.log.length>3000) R.log = R.log.slice(-3000);
+  guardarRepaso();
+}
+function racha(now){
+  const dias = new Set(R.log.map(l=>fechaDe(l.t)));
+  let t = now, n = 0;
+  if(!dias.has(fechaDe(t))) t -= DIA;
+  while(dias.has(fechaDe(t))){ n++; t -= DIA; }
+  return n;
+}
+function resumenRepaso(now){
+  const q = cola(now);
+  const estudio = Object.keys(R.cards).filter(id=>ITEMS[id]);
+  return {
+    pendientes: q.aprendiendo.length + q.repasos.length + (R.forzar||[]).length,
+    nuevas: q.nuevas.length,
+    estudio: estudio.length,
+    maduras: estudio.filter(id=>R.cards[id].ivl>=21).length,
+    total: ORDEN.length,
+    racha: racha(now),
+  };
+}
+
+// ---------- Voz ----------
+function hablar(texto, opts){
+  opts = opts || {};
+  let hecho = false;
+  const fin = ()=>{ if(hecho) return; hecho = true; if(opts.onend) opts.onend(); };
+  if(!('speechSynthesis' in window)){ setTimeout(fin, 0); return false; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(sinAcento(texto));
+  u.lang = 'ru-RU';
+  u.rate = opts.rate || 0.86;
+  if(cachedRuVoice) u.voice = cachedRuVoice;
+  u.onend = fin; u.onerror = fin;
+  window.speechSynthesis.speak(u);
+  // Respaldo por si el navegador no avisa el final.
+  setTimeout(fin, 2500 + sinAcento(texto).length*110/(opts.rate||0.86));
+  maybeWarnNoVoice();
+  return true;
+}
+function btnVoz(texto, clase){
+  return '<button type="button" class="spk-btn '+(clase||'')+'" data-hablar="'+escR(texto)+'" title="Escuchar en ruso">🔊</button>';
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-hablar]');
+  if(b){ e.stopPropagation(); hablar(b.dataset.hablar, { rate: b.dataset.rate ? Number(b.dataset.rate) : undefined }); }
+});
+
+// ---------- Pronunciación: grabadora, reconocimiento y autoevaluación ----------
+function normRuR(s){ return sinAcento(s).toLowerCase().replace(/ё/g,'е').replace(/[^а-я\s]/g,' ').replace(/\s+/g,' ').trim(); }
+function parecido(a, b){
+  a = normRuR(a); b = normRuR(b);
+  if(!a && !b) return 1;
+  let prev = Array.from({length:b.length+1}, (_,j)=>j);
+  for(let i=1; i<=a.length; i++){
+    const cur = [i];
+    for(let j=1; j<=b.length; j++) cur[j] = Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+(a[i-1]===b[j-1]?0:1));
+    prev = cur;
+  }
+  return 1 - prev[b.length]/Math.max(a.length, b.length);
+}
+const CRITERIOS = [['a','Acento'],['r','Reducción vocálica'],['f','Fluidez']];
+const CONSEJO_CRITERIO = {
+  a: 'El acento léxico es tu punto débil: repasa el Día 25 y marca en voz alta la sílaba tónica antes de decir cada frase.',
+  r: 'La reducción vocálica es tu punto débil: di la о átona como [a] y la е/я átonas cerca de [i] (Día 1).',
+  f: 'La fluidez es tu punto débil: haz shadowing encima del audio, sin esperar a que termine (Día 1, Bloque A).',
+};
+const Rec = { stream:null, rec:null, url:null, sr:null };
+function puedeGrabar(){ return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder); }
+function htmlGrabadora(id){
+  const p = R.pron[id] || {};
+  let h = '<div class="grab" data-grab="'+escR(id)+'">';
+  h += '<div class="grab-btns">';
+  if(puedeGrabar()){
+    h += '<button type="button" class="btn small" data-g="rec">🎙 Grabarme</button>'+
+      '<button type="button" class="btn small" data-g="mia" disabled>▶ Mi voz</button>';
+  }
+  h += '<button type="button" class="btn small" data-g="modelo">🔊 Modelo</button>';
+  if(puedeGrabar()) h += '<button type="button" class="btn small" data-g="ambas" disabled>⇄ Modelo y mi voz</button>';
+  h += '</div>';
+  h += '<div class="grab-est">'+(puedeGrabar()?'':'Este navegador no permite grabar aquí; puedes autoevaluarte igual.')+'</div>';
+  h += '<div class="autoev">';
+  CRITERIOS.forEach(([k,label])=>{
+    h += '<span class="autoev-item"><span>'+label+'</span><span class="seg" data-crit="'+k+'">'+
+      [1,2,3].map(v=>'<button type="button" data-v="'+v+'" class="'+(p[k]===v?'on':'')+'" title="'+['','Flojo','Regular','Bien'][v]+'">'+['','·','··','···'][v]+'</button>').join('')+
+      '</span></span>';
+  });
+  h += '</div></div>';
+  return h;
+}
+function detenerGrabacion(){
+  try{ if(Rec.rec && Rec.rec.state!=='inactive') Rec.rec.stop(); }catch(e){}
+  try{ if(Rec.sr) Rec.sr.stop(); }catch(e){}
+  if(Rec.stream){ Rec.stream.getTracks().forEach(t=>t.stop()); Rec.stream = null; }
+}
+function conectarGrabadora(raiz){
+  raiz.querySelectorAll('[data-grab]').forEach(box=>{
+    const id = box.dataset.grab, it = ITEMS[id];
+    const est = box.querySelector('.grab-est');
+    const bRec = box.querySelector('[data-g="rec"]'), bMia = box.querySelector('[data-g="mia"]'), bAmb = box.querySelector('[data-g="ambas"]');
+    let audio = null;
+    box.querySelector('[data-g="modelo"]').addEventListener('click', ()=>hablar(it.ru));
+    if(bRec) bRec.addEventListener('click', async ()=>{
+      if(Rec.rec && Rec.rec.state==='recording'){ detenerGrabacion(); return; }
+      try{
+        Rec.stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+      }catch(e){ est.textContent = 'No se pudo usar el micrófono: '+(e.message||e.name)+'.'; return; }
+      const trozos = [];
+      Rec.rec = new MediaRecorder(Rec.stream);
+      Rec.rec.ondataavailable = ev=>{ if(ev.data.size) trozos.push(ev.data); };
+      Rec.rec.onstop = ()=>{
+        if(Rec.url) URL.revokeObjectURL(Rec.url);
+        Rec.url = URL.createObjectURL(new Blob(trozos, { type: Rec.rec.mimeType || 'audio/webm' }));
+        audio = new Audio(Rec.url);
+        bRec.textContent = '🎙 Grabarme otra vez'; bRec.classList.remove('primary');
+        if(bMia) bMia.disabled = false; if(bAmb) bAmb.disabled = false;
+        if(!est.dataset.sr) est.textContent = 'Grabado. Escúchate junto al modelo y califícate.';
+        if(Rec.stream){ Rec.stream.getTracks().forEach(t=>t.stop()); Rec.stream = null; }
+      };
+      Rec.rec.start();
+      bRec.textContent = '■ Detener'; bRec.classList.add('primary');
+      est.textContent = 'Grabando… di la frase y pulsa Detener.'; est.dataset.sr = '';
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if(SR){
+        try{
+          const sr = new SR();
+          sr.lang = 'ru-RU'; sr.interimResults = false; sr.maxAlternatives = 3;
+          sr.onresult = ev=>{
+            const alts = Array.from(ev.results[0]||[]).map(a=>a.transcript);
+            if(!alts.length) return;
+            let mejor = alts[0], pm = parecido(alts[0], it.ru);
+            alts.forEach(a=>{ const q = parecido(a, it.ru); if(q>pm){ pm = q; mejor = a; } });
+            const pct = Math.round(pm*100);
+            est.dataset.sr = '1';
+            est.innerHTML = 'El reconocedor ruso entendió: <span class="ru">«'+escR(mejor)+'»</span> · coincidencia <b>'+pct+' %</b>'+
+              (pct>=85 ? ' — un ruso te entendería.' : pct>=60 ? ' — casi; revisa el acento y las vocales átonas.' : ' — no te reconoció: repite más despacio.');
+            const p = R.pron[id] || (R.pron[id] = {});
+            p.sr = pct; p.t = Date.now(); guardarRepaso();
+          };
+          sr.onend = ()=>{ if(Rec.rec && Rec.rec.state==='recording') detenerGrabacion(); };
+          sr.start(); Rec.sr = sr;
+        }catch(e){ Rec.sr = null; }
+      }
+    });
+    if(bMia) bMia.addEventListener('click', ()=>{ if(audio){ audio.currentTime = 0; audio.play(); } });
+    if(bAmb) bAmb.addEventListener('click', ()=>{ hablar(it.ru, { onend:()=>{ if(audio){ audio.currentTime = 0; audio.play(); } } }); });
+    box.querySelectorAll('.seg').forEach(seg=>{
+      seg.addEventListener('click', ev=>{
+        const b = ev.target.closest('button[data-v]'); if(!b) return;
+        const p = R.pron[id] || (R.pron[id] = {});
+        p[seg.dataset.crit] = Number(b.dataset.v); p.t = Date.now();
+        guardarRepaso();
+        seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===b));
+      });
+    });
+  });
+}
+
+// ---------- Vista Repaso ----------
+let Ses = null; // { id, tipo, dir, revelada }
+function tipoRotulo(t){ return { nueva:'nueva', repaso:'repaso', aprendiendo:'aprendiendo', refuerzo:'refuerzo' }[t] || t; }
+function renderRepaso(){
+  const cont = document.getElementById('view-repaso');
+  const now = Date.now();
+  const r = resumenRepaso(now);
+  let h = '';
+  h += '<div class="card"><h2>Repaso espaciado</h2>'+
+    '<p class="nota-suave">Cada frase vuelve justo antes de que la olvides. Mira el español, <b>dila en voz alta en ruso</b>, muestra la respuesta y califícate con honestidad: el programa decide cuándo volver a preguntártela.</p>'+
+    '<div class="grid-4">'+
+      '<div class="stat"><div class="num" id="rp-pend">'+r.pendientes+'</div><div class="label">Pendientes hoy</div></div>'+
+      '<div class="stat"><div class="num" id="rp-nuevas">'+r.nuevas+'</div><div class="label">Nuevas disponibles hoy</div></div>'+
+      '<div class="stat"><div class="num" id="rp-estudio">'+r.estudio+'/'+r.total+'</div><div class="label">Frases en estudio</div></div>'+
+      '<div class="stat"><div class="num">'+r.racha+'</div><div class="label">Días seguidos de repaso</div></div>'+
+    '</div>'+
+    '<div class="fila-btns"><button class="btn primary" id="rp-empezar">'+(Ses?'Seguir repasando':'Empezar repaso')+'</button>'+
+    '<button class="btn" id="rp-tarjeta">Tarjeta de bolsillo</button></div>'+
+    '<div id="rp-sesion"></div></div>';
+
+  h += '<div class="card"><h2>Mazos</h2><div class="ajustes">'+
+    '<label>Nuevas por día <select id="rp-limite">'+[5,10,15,20,30,50].map(n=>'<option'+(n===R.ajustes.limite?' selected':'')+'>'+n+'</option>').join('')+'</select></label>'+
+    '<label>Dirección <select id="rp-dir">'+
+      [['es-ru','Español → ruso (hablar)'],['ru-es','Ruso → español (escuchar)'],['mixto','Mixto']].map(([v,l])=>'<option value="'+v+'"'+(R.ajustes.dir===v?' selected':'')+'>'+l+'</option>').join('')+
+    '</select></label></div>';
+  h += '<div class="mazos">';
+  VOCAB.mazos.forEach(m=>{
+    const est = m.items.filter(it=>R.cards[it.id]).length;
+    const on = R.ajustes.mazos.includes(m.id);
+    h += '<div class="mazo"><label class="checklabel"><input type="checkbox" data-mazo="'+m.id+'"'+(on?' checked':'')+'> <b>'+escR(m.nombre)+'</b></label>'+
+      '<span class="pill">'+est+'/'+m.items.length+'</span>'+
+      '<div class="mazo-desc">'+escR(m.desc)+'</div>'+
+      '<details class="mazo-lista"><summary>Ver las '+m.items.length+' frases</summary><div class="table-wrap"><table class="idx-table"><tbody>'+
+      m.items.map(it=>{
+        const c = R.cards[it.id];
+        const estado = !c ? 'nueva' : c.ivl===0 ? 'aprendiendo' : 'cada '+fmtIntervalo(c.ivl*DIA);
+        return '<tr><td class="ru">'+escR(it.ru)+' '+btnVoz(it.ru)+'</td><td>'+escR(it.es)+(it.dia?' <span class="pill">Día '+it.dia+'</span>':'')+'</td><td class="estado">'+estado+'</td></tr>';
+      }).join('')+
+      '</tbody></table></div></details></div>';
+  });
+  h += '</div></div>';
+
+  h += '<div class="card" id="rp-anki"><h2>Anki</h2>'+
+    '<p class="nota-suave">Los mismos mazos, para repasar también en Anki (computadora o teléfono). Cada frase lleva un identificador fijo: si vuelves a importar, Anki actualiza las notas en vez de duplicarlas.</p>'+
+    '<div class="fila-btns"><button class="btn primary" id="anki-txt">Descargar para Anki (.txt)</button>'+
+    '<button class="btn" id="anki-enviar">Enviar directo a Anki (AnkiConnect)</button></div>'+
+    '<div id="anki-estado" class="nota-suave" role="status"></div>'+
+    '<details class="ayuda"><summary>Cómo importar el archivo</summary><ol>'+
+      '<li>En Anki de escritorio: <b>Archivo → Importar</b> y elige el .txt. Tipo de nota: <b>Básico</b> (o «Básico (y tarjeta invertida)» si también quieres practicar la escucha). Las columnas ya vienen asignadas: frente en español, reverso en ruso con acento y lectura, mazo y etiquetas.</li>'+
+      '<li>En AnkiDroid: menú <b>⋮ → Importar</b> y elige el archivo desde Descargas.</li>'+
+      '<li>En AnkiMobile (iPhone): abre el archivo desde la app Archivos y compártelo con Anki.</li>'+
+      '<li>Se crea el mazo «'+ANKI_RAIZ+'» con un submazo por tema, con los mazos marcados arriba.</li>'+
+    '</ol></details>'+
+    '<details class="ayuda"><summary>Cómo conectar AnkiConnect (solo escritorio)</summary><ol>'+
+      '<li>En Anki: <b>Herramientas → Complementos → Obtener complementos</b> y pega el código <b>2055492159</b>. Reinicia Anki.</li>'+
+      '<li>En <b>Herramientas → Complementos → AnkiConnect → Configuración</b>, añade esta dirección a <code>webCorsOriginList</code>: <code>'+escR(location.origin && location.origin!=='null' ? location.origin : 'https://ruso-recepciones.pages.dev')+'</code>. Guarda y reinicia Anki.</li>'+
+      '<li>Con Anki abierto, pulsa «Enviar directo a Anki». Si el navegador pregunta por el acceso a la red local, permítelo.</li>'+
+      '<li>Se crea el tipo de nota «'+ANKI_MODELO+'» con dos tarjetas: hablar (español → ruso) y escuchar (audio ruso → español), con la voz rusa de Anki.</li>'+
+    '</ol></details></div>';
+
+  cont.innerHTML = h;
+  document.getElementById('rp-empezar').addEventListener('click', ()=>{ if(!Ses) siguienteSesion(); pintarSesion(); document.getElementById('rp-sesion').scrollIntoView({ block:'nearest' }); });
+  document.getElementById('rp-tarjeta').addEventListener('click', abrirTarjeta);
+  document.getElementById('rp-limite').addEventListener('change', e=>{ R.ajustes.limite = Number(e.target.value); guardarRepaso(); renderRepaso(); });
+  document.getElementById('rp-dir').addEventListener('change', e=>{ R.ajustes.dir = e.target.value; guardarRepaso(); if(Ses){ Ses.dir = dirPara(); pintarSesion(); } });
+  cont.querySelectorAll('[data-mazo]').forEach(cb=>cb.addEventListener('change', ()=>{
+    R.ajustes.mazos = Array.from(cont.querySelectorAll('[data-mazo]:checked')).map(x=>x.dataset.mazo);
+    guardarRepaso(); Ses = null; renderRepaso();
+  }));
+  document.getElementById('anki-txt').addEventListener('click', descargarAnki);
+  document.getElementById('anki-enviar').addEventListener('click', enviarAnki);
+  if(Ses) pintarSesion();
+}
+function actualizarContadores(){
+  const r = resumenRepaso(Date.now());
+  const set = (id,v)=>{ const el = document.getElementById(id); if(el) el.textContent = v; };
+  set('rp-pend', r.pendientes); set('rp-nuevas', r.nuevas); set('rp-estudio', r.estudio+'/'+r.total);
+}
+function dirPara(){ const d = R.ajustes.dir; return d==='mixto' ? (Math.random()<0.5 ? 'es-ru' : 'ru-es') : d; }
+function siguienteSesion(){
+  const s = siguienteTarjeta(Date.now());
+  Ses = s ? { id:s.id, tipo:s.tipo, dir:dirPara(), revelada:false } : { fin:true };
+}
+function pintarSesion(){
+  const box = document.getElementById('rp-sesion');
+  if(!box || !Ses) return;
+  if(Ses.fin){
+    const q = cola(Date.now());
+    box.innerHTML = '<div class="fc fc-fin"><b>Listo por hoy.</b> '+
+      (q.pronto.length ? 'Hay '+q.pronto.length+' frase(s) en aprendizaje que vuelven en unos minutos.' : 'No quedan frases pendientes.')+
+      ' Si quieres más, sube el número de nuevas por día o practica en el simulador.</div>';
+    Ses = null;
+    return;
+  }
+  const it = ITEMS[Ses.id], m = MAZO[it.mazo], c = R.cards[Ses.id];
+  const now = Date.now();
+  let h = '<div class="fc" data-id="'+escR(it.id)+'">';
+  h += '<div class="fc-meta"><span class="pill">'+escR(m.nombre)+'</span> <span class="pill '+(Ses.tipo==='nueva'?'ok':Ses.tipo==='refuerzo'?'mock':'')+'">'+tipoRotulo(Ses.tipo)+'</span>'+(it.dia?' <span class="pill">Día '+it.dia+'</span>':'')+'</div>';
+  if(Ses.dir==='es-ru'){
+    h += '<div class="fc-es">'+escR(it.es)+'</div>';
+    if(!Ses.revelada) h += '<div class="fc-hint">Dilo en voz alta en ruso, y después muestra la respuesta.</div>';
+  }else{
+    h += '<div class="fc-oir"><button type="button" class="btn" data-hablar="'+escR(it.ru)+'">🔊 Escuchar</button> <button type="button" class="btn small" data-hablar="'+escR(it.ru)+'" data-rate="0.6">🐢 Despacio</button></div>';
+    if(!Ses.revelada) h += '<div class="fc-hint">¿Qué significa? Responde antes de mirar.</div>';
+  }
+  if(!Ses.revelada){
+    h += '<button class="btn primary fc-mostrar" id="fc-mostrar">Mostrar respuesta <span class="kbd">espacio</span></button>';
+  }else{
+    h += '<div class="fc-resp"><div class="fc-ru ru">'+escR(it.ru)+' '+btnVoz(it.ru)+'</div>';
+    if(it.lee) h += '<div class="fc-lee">'+escR(it.lee)+'</div>';
+    if(Ses.dir==='ru-es') h += '<div class="fc-es">'+escR(it.es)+'</div>';
+    if(it.nota) h += '<div class="fc-nota">'+escR(it.nota)+'</div>';
+    h += '</div>';
+    h += htmlGrabadora(it.id);
+    h += '<div class="grades">'+[[1,'Otra vez'],[2,'Difícil'],[3,'Bien'],[4,'Fácil']].map(([g,l])=>
+      '<button class="btn grade g'+g+'" data-grade="'+g+'">'+l+'<small>'+fmtIntervalo(programar(c,g,now).due-now)+' · '+g+'</small></button>').join('')+'</div>';
+  }
+  h += '</div>';
+  box.innerHTML = h;
+  const bm = document.getElementById('fc-mostrar');
+  if(bm) bm.addEventListener('click', revelar);
+  box.querySelectorAll('[data-grade]').forEach(b=>b.addEventListener('click', ()=>responder(Number(b.dataset.grade))));
+  conectarGrabadora(box);
+  if(Ses.dir==='ru-es' && !Ses.revelada && !Ses.sonada){ Ses.sonada = true; hablar(it.ru); }
+  if(Ses.dir==='es-ru' && Ses.revelada && !Ses.sonada){ Ses.sonada = true; hablar(it.ru); }
+}
+function revelar(){ if(Ses && !Ses.fin && !Ses.revelada){ Ses.revelada = true; pintarSesion(); } }
+function responder(g){
+  if(!Ses || Ses.fin || !Ses.revelada) return;
+  detenerGrabacion();
+  calificar(Ses.id, g, Date.now());
+  siguienteSesion();
+  pintarSesion();
+  actualizarContadores();
+}
+document.addEventListener('keydown', e=>{
+  if(!document.getElementById('view-repaso').classList.contains('active') || !Ses || Ses.fin) return;
+  if(e.target.closest && e.target.closest('input,select,textarea')) return;
+  if((e.key===' ' || e.key==='Enter') && !Ses.revelada){ e.preventDefault(); revelar(); }
+  else if(Ses.revelada && /^[1-4]$/.test(e.key)){ e.preventDefault(); responder(Number(e.key)); }
+});
+function repasarAhora(ids){
+  R.forzar = Array.from(new Set((R.forzar||[]).concat(ids.filter(id=>ITEMS[id]))));
+  guardarRepaso();
+  Ses = null;
+  switchView('repaso');
+  siguienteSesion(); pintarSesion();
+}
+
+// ---------- Anki ----------
+function mazosElegidos(){ return VOCAB.mazos.filter(m=>R.ajustes.mazos.includes(m.id)); }
+function limpiarCampo(s){ return String(s||'').replace(/[\t\r\n]+/g,' ').trim(); }
+function reversoAnki(it){
+  return escR(it.ru)+(it.lee?'<br><i>'+escR(it.lee)+'</i>':'')+(it.nota?'<br><small>'+escR(it.nota)+'</small>':'');
+}
+function textoAnki(mazos){
+  const lineas = ['#separator:tab','#html:true','#guid column:1','#deck column:4','#tags column:5'];
+  mazos.forEach(m=>m.items.forEach(it=>{
+    const tags = ['ruso_recepciones', 'rr_'+m.id].concat(it.dia ? ['dia_'+it.dia] : []);
+    lineas.push([ 'rr-'+it.id, escR(it.es), reversoAnki(it), ANKI_RAIZ+'::'+m.nombre, tags.join(' ') ].map(limpiarCampo).join('\t'));
+  }));
+  return lineas.join('\n')+'\n';
+}
+function descargarAnki(){
+  const mazos = mazosElegidos();
+  const est = document.getElementById('anki-estado');
+  if(!mazos.length){ est.textContent = 'Marca al menos un mazo.'; return; }
+  const blob = new Blob([textoAnki(mazos)], { type:'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ruso-recepciones-anki.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  const n = mazos.reduce((s,m)=>s+m.items.length, 0);
+  est.textContent = 'Archivo listo: '+n+' frases de '+mazos.length+' mazo(s). Impórtalo en Anki con Archivo → Importar.';
+}
+async function anki(action, params){
+  const r = await fetch(ANKI_URL, { method:'POST', body:JSON.stringify({ action, version:6, params:params||{} }) });
+  const j = await r.json();
+  if(j.error) throw new Error(j.error);
+  return j.result;
+}
+const ANKI_CSS = '.card{font-family:"Noto Sans",Arial,sans-serif;font-size:22px;text-align:center;color:#242220;background:#faf9f6}'+
+  '.ru{font-size:30px;font-weight:700;color:#7a2e2e}.lee{color:#8b867c;font-size:16px;margin-top:6px}.nota{font-size:15px;margin-top:8px;color:#5a564f}.hint{color:#8b867c;font-size:15px;margin-top:10px}'+
+  '.nightMode .card,.night_mode .card{color:#eee9e2;background:#1b1a18}.nightMode .ru,.night_mode .ru{color:#d98b7a}';
+async function enviarAnki(){
+  const est = document.getElementById('anki-estado');
+  const mazos = mazosElegidos();
+  if(!mazos.length){ est.textContent = 'Marca al menos un mazo.'; return; }
+  est.textContent = 'Conectando con Anki…';
+  try{
+    await anki('version');
+  }catch(e){
+    est.innerHTML = 'No pude conectar con Anki. Revisa que Anki esté abierto, que AnkiConnect esté instalado y que esta página figure en <code>webCorsOriginList</code> (instrucciones abajo). En el teléfono, usa «Descargar para Anki».';
+    return;
+  }
+  try{
+    const modelos = await anki('modelNames');
+    if(!modelos.includes(ANKI_MODELO)){
+      await anki('createModel', { modelName:ANKI_MODELO, inOrderFields:['Español','Ruso','Lectura','Nota','Audio'], css:ANKI_CSS, isCloze:false, cardTemplates:[
+        { Name:'Hablar (español → ruso)', Front:'<div>{{Español}}</div><div class="hint">Dilo en ruso</div>',
+          Back:'{{FrontSide}}<hr id="answer"><div class="ru">{{Ruso}}</div><div class="lee">{{Lectura}}</div><div class="nota">{{Nota}}</div>{{tts ru_RU speed=0.9:Audio}}' },
+        { Name:'Escuchar (ruso → español)', Front:'{{tts ru_RU speed=0.9:Audio}}<div class="hint">¿Qué significa?</div>',
+          Back:'{{FrontSide}}<hr id="answer"><div class="ru">{{Ruso}}</div><div>{{Español}}</div><div class="lee">{{Lectura}}</div>' },
+      ]});
+    }
+    let nuevas = 0, ya = 0;
+    for(const m of mazos){
+      const deck = ANKI_RAIZ+'::'+m.nombre;
+      await anki('createDeck', { deck });
+      const notas = m.items.map(it=>({
+        deckName:deck, modelName:ANKI_MODELO,
+        fields:{ 'Español':escR(it.es), 'Ruso':escR(it.ru), 'Lectura':escR(it.lee||''), 'Nota':escR(it.nota||''), 'Audio':escR(sinAcento(it.ru)) },
+        tags:['ruso_recepciones','rr_'+m.id].concat(it.dia?['dia_'+it.dia]:[]),
+        options:{ allowDuplicate:false, duplicateScope:'deck' },
+      }));
+      const puede = await anki('canAddNotes', { notes:notas });
+      const aptas = notas.filter((_,i)=>puede[i]);
+      ya += notas.length - aptas.length;
+      if(aptas.length){ await anki('addNotes', { notes:aptas }); nuevas += aptas.length; }
+    }
+    est.textContent = 'Listo: '+nuevas+' nota(s) nuevas en Anki'+(ya?' y '+ya+' que ya estaban':'')+'. Sincroniza Anki para tenerlas en el teléfono.';
+  }catch(e){
+    est.textContent = 'Anki respondió con un error: '+e.message;
+  }
+}
+
+// ---------- Simulador de recepción ----------
+const SimAj = { esc:ESC.escenarios[0].id, seg:5, texto:false, compl:true, rapida:false };
+let SIM = null; // sesión en curso
+let simTimer = null;
+function barajar(a){ return a[Math.floor(Math.random()*a.length)]; }
+function armarSimulacion(escId, conCompl){
+  const e = ESC.escenarios.find(x=>x.id===escId) || ESC.escenarios[0];
+  const turnos = e.turnos.map(t=>({ tema:t.tema, linea:barajar(t.pool) }));
+  if(conCompl && ESC.complicaciones.length){
+    const pos = 1 + Math.floor(Math.random()*Math.max(1, turnos.length-2));
+    turnos.splice(pos, 0, { tema:'Complicación', linea:barajar(ESC.complicaciones), compl:true });
+  }
+  return { esc:e, turnos, i:0, fase:'inicio', res:[] };
+}
+function pausarSimulador(){
+  if(simTimer){ clearInterval(simTimer); simTimer = null; }
+  if(SIM && SIM.fase!=='fin'){ SIM = null; if('speechSynthesis' in window) window.speechSynthesis.cancel(); }
+}
+function renderSimulador(){
+  const cont = document.getElementById('view-simulador');
+  if(SIM){ pintarTurno(); return; }
+  let h = '<div class="card"><h2>Simulador de recepción</h2>'+
+    '<p class="nota-suave">El anfitrión te habla en ruso (sin texto a la vista) y tienes unos segundos para empezar a responder en voz alta. Pulsa «Empiezo a responder» en cuanto abras la boca: así se mide tu latencia. Luego ves la respuesta modelo y te calificas. Cada vez sale distinta, y puede haber una complicación sorpresa.</p>'+
+    '<div class="esc-grid">'+ESC.escenarios.map(e=>'<button type="button" class="esc-opt'+(SimAj.esc===e.id?' on':'')+'" data-esc="'+e.id+'"><b>'+escR(e.nombre)+'</b><span>'+escR(e.desc)+'</span><span class="esc-dias">Días '+e.dias.join(', ')+'</span></button>').join('')+'</div>'+
+    '<div class="ajustes">'+
+      '<label>Segundos para empezar <select id="sim-seg">'+[3,5,8,12].map(n=>'<option'+(n===SimAj.seg?' selected':'')+'>'+n+'</option>').join('')+'</select></label>'+
+      '<label class="checklabel"><input type="checkbox" id="sim-compl"'+(SimAj.compl?' checked':'')+'> Complicación sorpresa</label>'+
+      '<label class="checklabel"><input type="checkbox" id="sim-rapida"'+(SimAj.rapida?' checked':'')+'> Anfitrión que habla rápido</label>'+
+      '<label class="checklabel"><input type="checkbox" id="sim-texto"'+(SimAj.texto?' checked':'')+'> Ver el texto del anfitrión</label>'+
+    '</div>'+
+    '<div class="fila-btns"><button class="btn primary" id="sim-empezar">Empezar la recepción</button></div></div>';
+  h += historialSim();
+  cont.innerHTML = h;
+  cont.querySelectorAll('[data-esc]').forEach(b=>b.addEventListener('click', ()=>{ SimAj.esc = b.dataset.esc; renderSimulador(); }));
+  document.getElementById('sim-seg').addEventListener('change', e=>{ SimAj.seg = Number(e.target.value); });
+  document.getElementById('sim-compl').addEventListener('change', e=>{ SimAj.compl = e.target.checked; });
+  document.getElementById('sim-rapida').addEventListener('change', e=>{ SimAj.rapida = e.target.checked; });
+  document.getElementById('sim-texto').addEventListener('change', e=>{ SimAj.texto = e.target.checked; });
+  document.getElementById('sim-empezar').addEventListener('click', ()=>{ SIM = armarSimulacion(SimAj.esc, SimAj.compl); turnoHabla(); });
+}
+function historialSim(){
+  if(!R.sim.length) return '';
+  const nombre = id=>(ESC.escenarios.find(e=>e.id===id)||{}).nombre||id;
+  return '<div class="card"><h2>Tus recepciones simuladas</h2><div class="table-wrap"><table class="idx-table"><thead><tr><th>Fecha</th><th>Escenario</th><th>Latencia media</th><th>Congelamientos</th><th>Bien / dudas / no salió</th></tr></thead><tbody>'+
+    R.sim.slice(-10).reverse().map(s=>'<tr><td>'+new Date(s.t).toLocaleDateString('es-EC')+'</td><td>'+escR(nombre(s.esc))+'</td><td>'+(s.lat!=null?(s.lat/1000).toFixed(1).replace('.',',')+' s':'—')+'</td><td>'+s.cong+'</td><td>'+s.bien+' / '+s.dudas+' / '+s.fallos+'</td></tr>').join('')+
+    '</tbody></table></div></div>';
+}
+function turnoActual(){ return SIM && SIM.turnos[SIM.i]; }
+function turnoHabla(){
+  const t = turnoActual();
+  if(!t){ terminarSim(); return; }
+  SIM.fase = 'habla'; SIM.rep = 0;
+  pintarTurno();
+  const rapido = SimAj.rapida || t.linea.rapido;
+  const hay = hablar(t.linea.ru, { rate: rapido ? 1.1 : 0.9, onend:()=>{ if(SIM && SIM.fase==='habla' && turnoActual()===t) turnoEspera(); } });
+  if(!hay) SIM.sinVoz = true;
+}
+function turnoEspera(){
+  SIM.fase = 'espera'; SIM.t0 = Date.now(); SIM.agotado = false;
+  pintarTurno();
+  const total = SimAj.seg*1000;
+  if(simTimer) clearInterval(simTimer);
+  simTimer = setInterval(()=>{
+    if(!SIM || SIM.fase!=='espera'){ clearInterval(simTimer); simTimer = null; return; }
+    const pasado = Date.now()-SIM.t0;
+    const bar = document.getElementById('sim-bar');
+    if(bar) bar.style.width = Math.max(0, 100 - pasado/total*100)+'%';
+    if(pasado>=total && !SIM.agotado){
+      SIM.agotado = true;
+      const aviso = document.getElementById('sim-aviso');
+      if(aviso) aviso.textContent = 'Se acabó el tiempo: cuenta como congelamiento. Responde igual y sigue.';
+    }
+  }, 100);
+}
+function empezarRespuesta(){
+  if(!SIM || SIM.fase!=='espera') return;
+  SIM.lat = Date.now()-SIM.t0;
+  SIM.fase = 'revela'; SIM.eleg = 0;
+  if(simTimer){ clearInterval(simTimer); simTimer = null; }
+  pintarTurno();
+}
+function calificarTurno(nota){
+  const t = turnoActual();
+  const r = t.linea.resp[SIM.eleg] || t.linea.resp[0];
+  const cong = SIM.agotado || SIM.lat>CONGELA_MS;
+  SIM.res.push({ tema:t.tema, ru:t.linea.ru, es:t.linea.es, lat:SIM.lat, cong, nota, resp:r, compl:!!t.compl });
+  if(r && r.sigue && nota!=='fallo') SIM.turnos.splice(SIM.i+1, 0, { tema:t.tema+' (sigue)', linea:r.sigue });
+  SIM.i++;
+  turnoHabla();
+}
+function pintarTurno(){
+  const cont = document.getElementById('view-simulador');
+  if(!SIM) return;
+  if(SIM.fase==='fin'){ pintarFinSim(); return; }
+  const t = turnoActual();
+  const n = SIM.turnos.length;
+  let h = '<div class="card sim"><div class="sim-top"><b>'+escR(SIM.esc.nombre)+'</b><span class="pill">Turno '+(SIM.i+1)+' de '+n+'</span><span class="pill'+(t.compl?' mock':'')+'">'+escR(t.tema)+'</span>'+
+    '<button class="btn small" id="sim-salir">Terminar</button></div>';
+  const verTexto = SimAj.texto || SIM.sinVoz || SIM.fase==='revela';
+  h += '<div class="host"><div class="host-quien">Anfitrión'+(SIM.fase==='habla'?' — hablando…':'')+'</div>'+
+    (verTexto ? '<div class="host-ru ru">'+escR(t.linea.ru)+'</div>' : '<div class="host-oculto">(texto oculto: escucha)</div>')+
+    (SIM.fase==='revela' ? '<div class="host-es">'+escR(t.linea.es)+'</div>' : '')+
+    '<button type="button" class="btn small" id="sim-repetir">🔁 Repetir'+(SIM.rep?' ('+SIM.rep+')':'')+'</button></div>';
+  if(SIM.fase==='habla'){
+    h += '<div class="fila-btns"><button class="btn" id="sim-listo">Ya escuché</button></div>';
+  }else if(SIM.fase==='espera'){
+    h += '<div class="countdown"><div id="sim-bar" style="width:100%"></div></div>'+
+      '<div class="fila-btns"><button class="btn primary sim-grande" id="sim-hablo">Empiezo a responder <span class="kbd">espacio</span></button></div>'+
+      '<div id="sim-aviso" class="nota-suave"></div>';
+  }else if(SIM.fase==='revela'){
+    const lat = (SIM.lat/1000).toFixed(1).replace('.',',');
+    h += '<div class="nota-suave">Empezaste a responder a los <b>'+lat+' s</b>'+(SIM.agotado||SIM.lat>CONGELA_MS?' — cuenta como congelamiento (más de 3 s).':'.')+'</div>';
+    h += '<div class="resp-lista"><div class="resp-tit">'+(t.linea.resp.length>1?'Respuestas posibles (elige la que se parece a lo que dijiste):':'Respuesta modelo:')+'</div>'+
+      t.linea.resp.map((r,i)=>'<div class="resp'+(i===SIM.eleg?' on':'')+'" data-eleg="'+i+'"><div class="ru">'+escR(r.ru)+' '+btnVoz(r.ru)+'</div><div class="resp-es">'+escR(r.es)+'</div></div>').join('')+
+      '</div>';
+    const r = t.linea.resp[SIM.eleg];
+    if(r && ITEMS[(r.ids||[])[0]]) h += htmlGrabadora(r.ids[0]);
+    h += '<div class="fila-btns grades3"><button class="btn grade g3" data-nota="bien">Salió bien</button><button class="btn grade g2" data-nota="dudas">Con dudas</button><button class="btn grade g1" data-nota="fallo">No salió</button></div>';
+  }
+  h += '</div>';
+  cont.innerHTML = h;
+  document.getElementById('sim-salir').addEventListener('click', ()=>{ if(SIM.res.length) terminarSim(); else { pausarSimulador(); renderSimulador(); } });
+  document.getElementById('sim-repetir').addEventListener('click', ()=>{
+    SIM.rep = (SIM.rep||0)+1;
+    const b = document.getElementById('sim-repetir'); if(b) b.textContent = '🔁 Repetir ('+SIM.rep+')';
+    hablar(t.linea.ru, { rate:0.8, onend:()=>{ if(SIM && SIM.fase==='habla' && turnoActual()===t) turnoEspera(); } });
+  });
+  const bl = document.getElementById('sim-listo'); if(bl) bl.addEventListener('click', ()=>{ if('speechSynthesis' in window) window.speechSynthesis.cancel(); turnoEspera(); });
+  const bh = document.getElementById('sim-hablo'); if(bh) bh.addEventListener('click', empezarRespuesta);
+  cont.querySelectorAll('[data-eleg]').forEach(el=>el.addEventListener('click', ev=>{
+    if(ev.target.closest('[data-hablar]')) return;
+    SIM.eleg = Number(el.dataset.eleg); pintarTurno();
+  }));
+  cont.querySelectorAll('[data-nota]').forEach(b=>b.addEventListener('click', ()=>{ detenerGrabacion(); calificarTurno(b.dataset.nota); }));
+  conectarGrabadora(cont);
+}
+document.addEventListener('keydown', e=>{
+  if(!SIM || SIM.fase!=='espera') return;
+  if(!document.getElementById('view-simulador').classList.contains('active')) return;
+  if(e.key===' ' || e.key==='Enter'){ e.preventDefault(); empezarRespuesta(); }
+});
+function terminarSim(){
+  if(simTimer){ clearInterval(simTimer); simTimer = null; }
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  const res = SIM.res;
+  const lats = res.map(r=>r.lat).filter(x=>x!=null);
+  const reg = {
+    t:Date.now(), esc:SIM.esc.id, n:res.length,
+    lat: lats.length ? Math.round(lats.reduce((a,b)=>a+b,0)/lats.length) : null,
+    cong: res.filter(r=>r.cong).length,
+    bien: res.filter(r=>r.nota==='bien').length,
+    dudas: res.filter(r=>r.nota==='dudas').length,
+    fallos: res.filter(r=>r.nota==='fallo').length,
+    flojos: res.filter(r=>r.nota!=='bien' || r.cong).map(r=>({ tema:r.tema, ids:(r.resp&&r.resp.ids)||[] })),
+  };
+  if(res.length){ R.sim.push(reg); if(R.sim.length>60) R.sim = R.sim.slice(-60); guardarRepaso(); }
+  SIM.fase = 'fin'; SIM.reg = reg;
+  pintarFinSim();
+}
+function pintarFinSim(){
+  const cont = document.getElementById('view-simulador');
+  const reg = SIM.reg, res = SIM.res;
+  const flojas = Array.from(new Set(reg.flojos.flatMap(f=>f.ids))).filter(id=>ITEMS[id]);
+  let h = '<div class="card"><h2>Resultado — '+escR(SIM.esc.nombre)+'</h2><div class="grid-4">'+
+    '<div class="stat"><div class="num">'+(reg.lat!=null?(reg.lat/1000).toFixed(1).replace('.',',')+' s':'—')+'</div><div class="label">Latencia media (meta &lt; 2 s)</div></div>'+
+    '<div class="stat"><div class="num">'+reg.cong+'</div><div class="label">Congelamientos (&gt; 3 s)</div></div>'+
+    '<div class="stat"><div class="num">'+reg.bien+'/'+reg.n+'</div><div class="label">Turnos que salieron bien</div></div>'+
+    '<div class="stat"><div class="num">'+(reg.dudas+reg.fallos)+'</div><div class="label">Con dudas o sin salir</div></div></div>';
+  h += '<div class="table-wrap"><table class="idx-table"><thead><tr><th>Turno</th><th>Anfitrión</th><th>Respuesta modelo</th><th>Latencia</th><th>Resultado</th></tr></thead><tbody>'+
+    res.map(r=>'<tr><td>'+escR(r.tema)+'</td><td class="ru">'+escR(r.ru)+'</td><td class="ru">'+escR(r.resp?r.resp.ru:'')+'</td><td>'+(r.lat/1000).toFixed(1).replace('.',',')+' s'+(r.cong?' ⚠':'')+'</td><td>'+({bien:'bien',dudas:'con dudas',fallo:'no salió'})[r.nota]+'</td></tr>').join('')+
+    '</tbody></table></div>';
+  h += '<div class="fila-btns">';
+  if(flojas.length) h += '<button class="btn primary" id="sim-a-repaso">Repasar las '+flojas.length+' frases que fallaron</button>';
+  h += '<label class="checklabel">Guardar en el registro del <select id="sim-dia">'+MOCK_DAYS.map(d=>'<option value="'+d+'"'+(d===Number(state.selectedDay)?' selected':'')+'>Día '+d+'</option>').join('')+'</select></label>'+
+    '<button class="btn" id="sim-guardar-dia">Guardar latencia y congelamientos</button>'+
+    '<button class="btn" id="sim-otra">Otra recepción</button></div><div id="sim-guardado" class="nota-suave"></div></div>';
+  cont.innerHTML = h;
+  const ba = document.getElementById('sim-a-repaso'); if(ba) ba.addEventListener('click', ()=>{ SIM = null; repasarAhora(flojas); });
+  document.getElementById('sim-otra').addEventListener('click', ()=>{ SIM = null; renderSimulador(); });
+  document.getElementById('sim-guardar-dia').addEventListener('click', ()=>{
+    const d = Number(document.getElementById('sim-dia').value);
+    const pf = getPerf(d);
+    if(reg.lat!=null) pf.latencia = (reg.lat/1000).toFixed(1);
+    pf.silencios = String(reg.cong);
+    saveState();
+    document.getElementById('sim-guardado').textContent = 'Guardado en el registro de desempeño del Día '+d+'.';
+  });
+}
+
+// ---------- Diagnóstico ----------
+function puntajeDebil(c){ return c.lapses*2 + (c.ult===1?3:c.ult===2?1:0) + Math.max(0,(2.5-c.ease))*4; }
+function diagnostico(now){
+  now = now || Date.now();
+  const debiles = Object.keys(R.cards).filter(id=>ITEMS[id]).map(id=>({ id, s:puntajeDebil(R.cards[id]) }))
+    .filter(x=>x.s>0).sort((a,b)=>b.s-a.s).slice(0,10).map(x=>x.id);
+  const desde = now - 30*DIA;
+  const porMazo = {};
+  R.log.filter(l=>l.t>=desde && ITEMS[l.id]).forEach(l=>{
+    const m = ITEMS[l.id].mazo;
+    const o = porMazo[m] || (porMazo[m] = { n:0, ok:0 });
+    o.n++; if(l.g>=3) o.ok++;
+  });
+  const mazos = Object.keys(porMazo).filter(m=>porMazo[m].n>=5).map(m=>({ m, pct:Math.round(porMazo[m].ok/porMazo[m].n*100), n:porMazo[m].n })).sort((a,b)=>a.pct-b.pct);
+  const suma = { a:[0,0], r:[0,0], f:[0,0] };
+  Object.values(R.pron).forEach(p=>CRITERIOS.forEach(([k])=>{ if(p[k]){ suma[k][0]+=p[k]; suma[k][1]++; } }));
+  const pron = CRITERIOS.filter(([k])=>suma[k][1]).map(([k,label])=>({ k, label, media:suma[k][0]/suma[k][1] })).sort((a,b)=>a.media-b.media);
+  const sims = R.sim.slice(-5);
+  const lats = sims.map(s=>s.lat).filter(x=>x!=null);
+  const temas = {};
+  sims.forEach(s=>(s.flojos||[]).forEach(f=>{ const k = f.tema.replace(/ \(sigue\)$/,''); temas[k] = (temas[k]||0)+1; }));
+  const sim = sims.length ? {
+    n:sims.length,
+    lat: lats.length ? lats.reduce((a,b)=>a+b,0)/lats.length : null,
+    cong: sims.reduce((a,s)=>a+s.cong,0),
+    temas: Object.entries(temas).sort((a,b)=>b[1]-a[1]).slice(0,3),
+    ids: Array.from(new Set(sims.flatMap(s=>(s.flojos||[]).flatMap(f=>f.ids)))).filter(id=>ITEMS[id]),
+  } : null;
+  const consejos = [];
+  if(sim && sim.lat!=null && sim.lat>2000) consejos.push('Tu latencia media es de '+(sim.lat/1000).toFixed(1).replace('.',',')+' s (meta: menos de 2 s). Baja el tiempo del simulador a 3 s y repite el Día 23.');
+  if(sim && sim.cong) consejos.push('Tuviste '+sim.cong+' congelamiento(s) en las últimas simulaciones: ten a mano una muletilla («Как сказа́ть…», «Зна́ете…») para abrir la boca mientras piensas (Día 18).');
+  if(pron.length && pron[0].media<2.5) consejos.push(CONSEJO_CRITERIO[pron[0].k]);
+  if(mazos.length && mazos[0].pct<75) consejos.push('El mazo «'+MAZO[mazos[0].m].nombre+'» es el que más fallas ('+mazos[0].pct+' % de aciertos): déjalo solo en el repaso unos días.');
+  if(debiles.length) consejos.push('Tienes '+debiles.length+' frase(s) que se te resisten: repásalas ahora y grábate con ellas.');
+  return { debiles, mazos, pron, sim, consejos, vacio: !R.log.length && !R.sim.length && !Object.keys(R.pron).length };
+}
+function htmlDiagnostico(d, titulo){
+  let h = '<h2>'+titulo+'</h2>';
+  if(d.vacio) return h+'<p class="nota-suave">Todavía no hay datos. Haz un repaso o una recepción en el simulador y aquí aparecerán tus puntos débiles.</p>';
+  if(d.consejos.length) h += '<ul class="consejos">'+d.consejos.map(c=>'<li>'+escR(c)+'</li>').join('')+'</ul>';
+  else h += '<p class="nota-suave">Sin puntos débiles claros por ahora. Sigue así.</p>';
+  if(d.debiles.length){
+    h += '<div class="diag-sub">Frases que más se te resisten</div><div class="table-wrap"><table class="idx-table"><tbody>'+
+      d.debiles.map(id=>{ const it = ITEMS[id], c = R.cards[id]; return '<tr><td class="ru">'+escR(it.ru)+' '+btnVoz(it.ru)+'</td><td>'+escR(it.es)+'</td><td class="estado">'+c.lapses+' olvido(s)</td></tr>'; }).join('')+
+      '</tbody></table></div>';
+  }
+  const partes = [];
+  if(d.mazos.length) partes.push('Aciertos por mazo (30 días): '+d.mazos.map(x=>escR(MAZO[x.m].nombre)+' '+x.pct+' %').join(' · '));
+  if(d.pron.length) partes.push('Autoevaluación de pronunciación (de 1 a 3): '+d.pron.map(p=>p.label+' '+p.media.toFixed(1).replace('.',',')).join(' · '));
+  if(d.sim && d.sim.temas.length) partes.push('Momentos del simulador que más fallan: '+d.sim.temas.map(([t,n])=>escR(t)+' ('+n+')').join(' · '));
+  if(partes.length) h += '<div class="diag-datos">'+partes.map(p=>'<div>'+p+'</div>').join('')+'</div>';
+  const ids = Array.from(new Set(d.debiles.concat(d.sim ? d.sim.ids : [])));
+  if(ids.length) h += '<div class="fila-btns"><button class="btn primary" data-repasar="'+ids.join(',')+'">Repasar estas '+ids.length+' frases ahora</button></div>';
+  return h;
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-repasar]');
+  if(b) repasarAhora(b.dataset.repasar.split(','));
+});
+function renderPanelRepaso(){
+  const el = document.getElementById('dash-repaso');
+  if(!el) return;
+  const r = resumenRepaso(Date.now());
+  el.innerHTML = '<h2>Repaso y práctica</h2><div class="grid-4">'+
+    '<div class="stat"><div class="num" id="st-pend">'+r.pendientes+'</div><div class="label">Frases pendientes hoy</div></div>'+
+    '<div class="stat"><div class="num">'+r.estudio+'/'+r.total+'</div><div class="label">Frases en estudio</div></div>'+
+    '<div class="stat"><div class="num">'+r.maduras+'</div><div class="label">Frases firmes (≥ 21 días)</div></div>'+
+    '<div class="stat"><div class="num">'+R.sim.length+'</div><div class="label">Simulaciones hechas</div></div></div>'+
+    '<div class="fila-btns"><button class="btn primary" data-ir="repaso">Repasar ahora</button><button class="btn" data-ir="simulador">Simulador</button><button class="btn" data-tarjeta>Tarjeta de bolsillo</button></div>';
+  document.getElementById('dash-diag').innerHTML = htmlDiagnostico(diagnostico(), 'Diagnóstico: tus puntos débiles');
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-ir]');
+  if(b){ switchView(b.dataset.ir); if(b.dataset.ir==='repaso' && !Ses){ siguienteSesion(); pintarSesion(); } return; }
+  if(e.target.closest('[data-tarjeta]')) abrirTarjeta();
+  const s = e.target.closest('[data-sim]');
+  if(s){ SimAj.esc = s.dataset.sim; SIM = null; switchView('simulador'); }
+});
+
+// ---------- Extras en la vista Hoy ----------
+function renderHoyExtras(day, cont){
+  const r = resumenRepaso(Date.now());
+  const primera = cont.querySelector('.card');
+  const banda = document.createElement('div');
+  banda.className = 'reminder hoy-repaso';
+  const escs = ESC.escenarios.filter(e=>e.dias.includes(Number(day)));
+  banda.innerHTML = '<b>↻</b><div>Repaso espaciado: <b>'+r.pendientes+'</b> frase(s) pendientes y <b>'+r.nuevas+'</b> nuevas disponibles hoy. '+
+    '<button class="btn small" data-ir="repaso">Repasar</button>'+
+    (escs.length ? ' · Practica este día en el simulador: '+escs.map(e=>'<button class="btn small" data-sim="'+e.id+'">'+escR(e.nombre)+'</button>').join(' ') : '')+
+    '</div>';
+  cont.insertBefore(banda, cont.firstChild);
+  if(Number(day)===20 || Number(day)===29){
+    const c = document.createElement('div');
+    c.className = 'card diag-hoy';
+    c.innerHTML = htmlDiagnostico(diagnostico(), 'Material dirigido: lo que dicen tus datos');
+    if(primera && primera.nextSibling) cont.insertBefore(c, primera.nextSibling); else cont.appendChild(c);
+  }
+  if(Number(day)===30){
+    const c = document.createElement('div');
+    c.className = 'card';
+    c.innerHTML = '<h2>Tarjeta de bolsillo</h2><p class="nota-suave">Tu guion, las frases de salida y las que todavía se te resisten, en una tarjeta para imprimir o guardar en el teléfono.</p><div class="fila-btns"><button class="btn primary" data-tarjeta>Generar tarjeta de bolsillo</button></div>';
+    if(primera && primera.nextSibling) cont.insertBefore(c, primera.nextSibling); else cont.appendChild(c);
+  }
+}
+
+// ---------- Tarjeta de bolsillo ----------
+function lineaTarjeta(id){
+  const it = ITEMS[id];
+  return '<li><span class="ru">'+escR(it.ru)+'</span>'+(it.lee?'<span class="tj-lee">'+escR(it.lee)+'</span>':'')+'<span class="tj-es">'+escR(it.es)+'</span></li>';
+}
+function idsTarjeta(){
+  const fijas = new Set(TARJETA_GUION.concat(TARJETA_SALIDAS));
+  const flojas = diagnostico().debiles.filter(id=>!fijas.has(id)).slice(0,6);
+  return { guion:TARJETA_GUION, salidas:TARJETA_SALIDAS, flojas };
+}
+function abrirTarjeta(){
+  const t = idsTarjeta();
+  let el = document.getElementById('tarjeta');
+  el.innerHTML = '<div class="tj" role="dialog" aria-label="Tarjeta de bolsillo">'+
+    '<div class="tj-cab"><b>Ruso para la recepción</b><span>Pablo · Ecuador</span></div>'+
+    '<div class="tj-sec">Mi guion</div><ol>'+t.guion.map(lineaTarjeta).join('')+'</ol>'+
+    '<div class="tj-sec">Para salir de apuros</div><ul>'+t.salidas.map(lineaTarjeta).join('')+'</ul>'+
+    (t.flojas.length ? '<div class="tj-sec">Mis frases por reforzar</div><ul>'+t.flojas.map(lineaTarjeta).join('')+'</ul>' : '')+
+    '<div class="tj-pie">Acento: la sílaba con tilde. о átona → [a].</div>'+
+    '<div class="fila-btns tj-acciones"><button class="btn primary" id="tj-imprimir">Imprimir</button><button class="btn" id="tj-copiar">Copiar texto</button><button class="btn" id="tj-cerrar">Cerrar</button></div>'+
+    '</div>';
+  el.hidden = false;
+  document.getElementById('tj-cerrar').addEventListener('click', ()=>{ el.hidden = true; });
+  document.getElementById('tj-imprimir').addEventListener('click', ()=>window.print());
+  document.getElementById('tj-copiar').addEventListener('click', ()=>{
+    const txt = ['Mi guion'].concat(t.guion.map(id=>ITEMS[id].ru+' — '+ITEMS[id].es), ['', 'Para salir de apuros'], t.salidas.map(id=>ITEMS[id].ru+' — '+ITEMS[id].es),
+      t.flojas.length ? ['', 'Mis frases por reforzar'].concat(t.flojas.map(id=>ITEMS[id].ru+' — '+ITEMS[id].es)) : []).join('\n');
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(()=>showToast('Tarjeta copiada.'), ()=>showToast('No se pudo copiar; usa Imprimir.'));
+  });
+}
+document.getElementById('tarjeta').addEventListener('click', e=>{ if(e.target.id==='tarjeta') e.currentTarget.hidden = true; });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ const el = document.getElementById('tarjeta'); if(!el.hidden) el.hidden = true; } });
 
 // ---------- Init ----------
 switchView('dashboard');

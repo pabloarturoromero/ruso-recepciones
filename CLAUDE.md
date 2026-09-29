@@ -4,6 +4,8 @@ Toda la aplicación es un solo archivo, `index.html`. Los 30 días viven en la c
 
 La pestaña «Dudas» (`#view-dudas`) es un chat sin red ni modelos de lenguaje. Los temas (gramática, ortografía, pronunciación, fórmulas, método) viven en el bloque JSON `<script type="application/json" id="dudas">`: cada tema tiene `id`, `t` (título), `dice` (frases que lo activan, sin tildes; se comparan como palabras completas), `r` (respuesta en HTML, con comillas simples en los atributos) y `dias`. El motor está en `<script id="dudas-motor">` (`crearDudas`). El diccionario es `lexico.js`, generado con `node scripts/lexico.mjs <carpeta de los CSV de OpenRussian>`; se carga solo al abrir la pestaña y debe publicarse junto a `index.html`. Si se añade vocabulario ruso al plan, regenerar `lexico.js` para que el chat lo reconozca. Los datos son CC BY-SA 4.0: conservar la atribución de la pestaña.
 
+El vocabulario del repaso espaciado está en el bloque JSON `<script type="application/json" id="vocab">` (mazos con `id`, `ru` con tilde de acento U+0301, `es`, y opcionalmente `lee`, `nota` y `dia`). Los ids son también el GUID de Anki (`rr-<id>`): no renombrarlos, o Anki duplicará las notas. Los escenarios del simulador están en `<script type="application/json" id="escenarios">`; cada respuesta modelo lleva `ids` de frases del vocabulario (la prueba falla si alguno no existe) y puede llevar `sigue` para ramificar. La lógica (programador SM-2, grabadora, simulador, diagnóstico, Anki y tarjeta de bolsillo) está en `<script id="repaso">`.
+
 ## Publicación automática
 
 Cloudflare Pages (proyecto `ruso-recepciones`) está conectado a este repositorio. Cada push a `main` publica en https://ruso-recepciones.pages.dev en uno o dos minutos. Sin comando de compilación; directorio de salida `/`. No se usa Wrangler.
@@ -18,7 +20,7 @@ Cloudflare Pages (proyecto `ruso-recepciones`) está conectado a este repositori
 
 ## Datos del usuario
 
-El progreso se guarda en el `localStorage` del navegador con la clave `ruso_recepciones_v2` (`progress`, `perf`, `selectedDay`, `curso`, `cursoSel`). No cambiar la clave ni la estructura sin migrar los datos existentes.
+El progreso se guarda en el `localStorage` del navegador con la clave `ruso_recepciones_v2` (`progress`, `perf`, `selectedDay`, `curso`, `cursoSel`). El repaso, la pronunciación y las simulaciones van aparte, en `ruso_recepciones_repaso_v1` (`v: 1`, `cards`, `log`, `nuevas`, `pron`, `sim`, `forzar`, `ajustes`), que por ahora no se sincroniza. No cambiar las claves ni la estructura sin migrar los datos existentes. Las grabaciones de voz no se guardan: viven solo en memoria.
 
 ## Sincronización entre dispositivos
 
