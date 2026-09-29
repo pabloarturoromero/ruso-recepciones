@@ -14,55 +14,61 @@
 <title>Ruso Recepciones — Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Oswald:wght@500;600&family=Russo+One&display=swap" rel="stylesheet">
+<link rel="icon" type="image/webp" href="img/logo-64.webp">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#b3171d">
 <style>
 :root{
-  --bg:#f4eef3; --bg-grad:linear-gradient(135deg,#f7dbe4 0%,#efe8f4 42%,#f3e4ee 70%,#f8d9e2 100%);
-  --frame:rgba(246,245,249,.86); --frame-border:rgba(255,255,255,.95);
-  --panel:rgba(255,255,255,.72); --panel-solid:#ffffff; --panel-2:#f5f4f8; --border:#e6e3ec; --border-2:#eeecf2;
-  --ink:#16151a; --ink-2:#55535e; --ink-3:#9896a2;
-  --black:#141317; --black-ink:#ffffff;
-  --accent:#6b62e3; --accent-ink:#ffffff; --accent-soft:#ecebfd;
-  --lav:#bfc2fb; --lav-2:#a7acf6; --lav-soft:#e6e6fd;
-  --pink:#f8b4c6; --pink-2:#f191ab; --pink-soft:#fde6ec;
-  --grad-pink:linear-gradient(160deg,#fde9ef 0%,#fbd0dc 100%);
-  --grad-lav:linear-gradient(160deg,#eeeefe 0%,#d9dafc 100%);
-  --ok:#3d8a66; --ok-soft:#e1f3e9; --warn:#b3643a; --warn-soft:#fbe6dc; --muted-soft:#ecebf1;
-  --shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 12px 32px rgba(120,96,140,.08);
-  --shadow-frame:0 30px 80px rgba(150,100,130,.18);
+  --bg:#f3ead3; --bg-grad:radial-gradient(ellipse at 50% -20%,rgba(179,23,29,.16) 0%,transparent 60%),linear-gradient(135deg,#f6eed8 0%,#f1e4c6 50%,#f5e9cf 100%);
+  --frame:rgba(253,247,229,.9); --frame-border:#e3d5b4;
+  --panel:rgba(253,247,229,.82); --panel-solid:#fdf7e5; --panel-2:#f6ecd4; --border:#d8c7a2; --border-2:#e8dcbf;
+  --ink:#2a1a14; --ink-2:#5c4435; --ink-3:#8c7462;
+  --black:#b3171d; --black-ink:#fdf7e5;
+  --accent:#a3141a; --accent-ink:#fdf7e5; --accent-soft:#f6dcd2;
+  --lav:#d9453c; --lav-2:#b3171d; --lav-soft:#f6dcd2;
+  --pink:#f0c56a; --pink-2:#e0a53a; --pink-soft:#f8ebc9;
+  --grad-pink:linear-gradient(160deg,#fbf0d2 0%,#f3dca6 100%);
+  --grad-lav:linear-gradient(160deg,#fbe6dc 0%,#f3c9bd 100%);
+  --ok:#3f6b3f; --ok-soft:#e3ecd5; --warn:#8a5d10; --warn-soft:#f6e6c2; --muted-soft:#ebdfc3;
+  --red-deep:#7e0f13; --gold:#e0a53a; --band:#b3171d; --band-ink:#fdf7e5;
+  --shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 10px 28px rgba(90,40,20,.09);
+  --shadow-frame:0 30px 80px rgba(120,40,20,.16);
   --r-lg:26px; --r-md:18px; --r-sm:12px;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#16141b; --bg-grad:linear-gradient(135deg,#231a24 0%,#1b1a24 45%,#241a22 100%);
-    --frame:rgba(28,27,34,.88); --frame-border:rgba(255,255,255,.06);
-    --panel:rgba(40,38,48,.78); --panel-solid:#28262f; --panel-2:#23212a; --border:#393643; --border-2:#302e39;
-    --ink:#f1eff5; --ink-2:#c3c0cc; --ink-3:#8c8997;
-    --black:#f1eff5; --black-ink:#16151a;
-    --accent:#a9a4ff; --accent-ink:#16151a; --accent-soft:#2c2946;
-    --lav:#7c80e0; --lav-2:#9095f0; --lav-soft:#2a2a44;
-    --pink:#d9809a; --pink-2:#ee98b0; --pink-soft:#3a2530;
-    --grad-pink:linear-gradient(160deg,#3a2530 0%,#4a2a38 100%);
-    --grad-lav:linear-gradient(160deg,#2a2a44 0%,#33345a 100%);
-    --ok:#8fd1ae; --ok-soft:#1f3329; --warn:#eab08a; --warn-soft:#3a2a20; --muted-soft:#302e39;
-    --shadow:0 12px 32px rgba(0,0,0,.25); --shadow-frame:0 30px 80px rgba(0,0,0,.4);
+    --bg:#16100e; --bg-grad:radial-gradient(ellipse at 50% -20%,rgba(179,23,29,.28) 0%,transparent 60%),linear-gradient(135deg,#221410 0%,#1a1210 45%,#20130f 100%);
+    --frame:rgba(30,21,18,.9); --frame-border:rgba(255,230,200,.08);
+    --panel:rgba(44,30,26,.8); --panel-solid:#2c1e1a; --panel-2:#241915; --border:#4d352b; --border-2:#3a2822;
+    --ink:#f4ead2; --ink-2:#d2c2a4; --ink-3:#9c8a72;
+    --black:#c8231f; --black-ink:#fdf7e5;
+    --accent:#ef6a5c; --accent-ink:#1a1210; --accent-soft:#44201b;
+    --lav:#b8322b; --lav-2:#e0463c; --lav-soft:#3d1d19;
+    --pink:#b88a2e; --pink-2:#e8b04a; --pink-soft:#3a2d18;
+    --grad-pink:linear-gradient(160deg,#3a2d18 0%,#4a3719 100%);
+    --grad-lav:linear-gradient(160deg,#3d1d19 0%,#522420 100%);
+    --ok:#9dc79d; --ok-soft:#213424; --warn:#e8b04a; --warn-soft:#3a2d18; --muted-soft:#33241f;
+    --red-deep:#8f1418; --gold:#e8b04a; --band:#8f1418; --band-ink:#f4ead2;
+    --shadow:0 12px 32px rgba(0,0,0,.3); --shadow-frame:0 30px 80px rgba(0,0,0,.45);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#16141b; --bg-grad:linear-gradient(135deg,#231a24 0%,#1b1a24 45%,#241a22 100%);
-  --frame:rgba(28,27,34,.88); --frame-border:rgba(255,255,255,.06);
-  --panel:rgba(40,38,48,.78); --panel-solid:#28262f; --panel-2:#23212a; --border:#393643; --border-2:#302e39;
-  --ink:#f1eff5; --ink-2:#c3c0cc; --ink-3:#8c8997;
-  --black:#f1eff5; --black-ink:#16151a;
-  --accent:#a9a4ff; --accent-ink:#16151a; --accent-soft:#2c2946;
-  --lav:#7c80e0; --lav-2:#9095f0; --lav-soft:#2a2a44;
-  --pink:#d9809a; --pink-2:#ee98b0; --pink-soft:#3a2530;
-  --grad-pink:linear-gradient(160deg,#3a2530 0%,#4a2a38 100%);
-  --grad-lav:linear-gradient(160deg,#2a2a44 0%,#33345a 100%);
-  --ok:#8fd1ae; --ok-soft:#1f3329; --warn:#eab08a; --warn-soft:#3a2a20; --muted-soft:#302e39;
-  --shadow:0 12px 32px rgba(0,0,0,.25); --shadow-frame:0 30px 80px rgba(0,0,0,.4);
+  --bg:#16100e; --bg-grad:radial-gradient(ellipse at 50% -20%,rgba(179,23,29,.28) 0%,transparent 60%),linear-gradient(135deg,#221410 0%,#1a1210 45%,#20130f 100%);
+  --frame:rgba(30,21,18,.9); --frame-border:rgba(255,230,200,.08);
+  --panel:rgba(44,30,26,.8); --panel-solid:#2c1e1a; --panel-2:#241915; --border:#4d352b; --border-2:#3a2822;
+  --ink:#f4ead2; --ink-2:#d2c2a4; --ink-3:#9c8a72;
+  --black:#c8231f; --black-ink:#fdf7e5;
+  --accent:#ef6a5c; --accent-ink:#1a1210; --accent-soft:#44201b;
+  --lav:#b8322b; --lav-2:#e0463c; --lav-soft:#3d1d19;
+  --pink:#b88a2e; --pink-2:#e8b04a; --pink-soft:#3a2d18;
+  --grad-pink:linear-gradient(160deg,#3a2d18 0%,#4a3719 100%);
+  --grad-lav:linear-gradient(160deg,#3d1d19 0%,#522420 100%);
+  --ok:#9dc79d; --ok-soft:#213424; --warn:#e8b04a; --warn-soft:#3a2d18; --muted-soft:#33241f;
+  --red-deep:#8f1418; --gold:#e8b04a; --band:#8f1418; --band-ink:#f4ead2;
+  --shadow:0 12px 32px rgba(0,0,0,.3); --shadow-frame:0 30px 80px rgba(0,0,0,.45);
   color-scheme:dark;
 }
 *{box-sizing:border-box;}
@@ -113,7 +119,7 @@ svg.i{width:18px; height:18px; flex:none; stroke:currentColor; fill:none; stroke
 .legend i{display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:6px; vertical-align:-1px;}
 .chart-wrap{position:relative;}
 #chart svg{display:block; width:100%; height:230px;}
-.chart-badge{position:absolute; left:50%; top:4px; transform:translateX(-50%); background:var(--grad-pink); border:1px solid var(--frame-border); border-radius:16px; padding:10px 16px; box-shadow:0 10px 24px rgba(241,145,171,.25); pointer-events:none; white-space:nowrap;}
+.chart-badge{position:absolute; left:50%; top:4px; transform:translateX(-50%); background:var(--grad-pink); border:1px solid var(--frame-border); border-radius:16px; padding:10px 16px; box-shadow:0 10px 24px rgba(224,165,58,.25); pointer-events:none; white-space:nowrap;}
 .chart-badge .big{font-size:2rem; font-weight:300; letter-spacing:-.03em; line-height:1.1;}
 .chart-badge .small{font-size:.72rem; color:var(--ink-2);}
 .scrub{position:relative; height:14px; border-radius:7px; background:var(--muted-soft); margin:6px 0 8px;}
@@ -456,11 +462,52 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
   .tj{box-shadow:none; max-width:none; color:#000; background:#fff;}
   .tj-acciones{display:none;}
 }
+
+/* ---------- Tema soviético · Pabloski's Russian Club ---------- */
+.logo{width:60px; height:60px; border-radius:50%; background:var(--panel-solid); border:3px solid var(--gold); box-shadow:0 6px 16px rgba(90,20,10,.3); object-fit:cover; padding:0;}
+.club{margin:0 0 2px 8px; font-family:'Oswald','Manrope',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:.74rem; color:var(--accent);}
+.club .ru{letter-spacing:.1em;}
+.club-star{color:var(--gold);}
+.greet{font-family:'Russo One','Oswald','Noto Sans',sans-serif; text-transform:uppercase; letter-spacing:.005em; color:var(--accent); text-shadow:2px 2px 0 var(--pink-soft);}
+.greet .ru{font-family:inherit;}
+.card h2,.idx-phase h3,.ref-section h3,.day-header h2{font-family:'Russo One','Oswald','Noto Sans',sans-serif; font-weight:400; letter-spacing:0;}
+.card{border-top:5px solid var(--accent);}
+.card h2::before{content:"★ "; color:var(--gold); font-size:.8em; vertical-align:.08em;}
+.tab-btn{font-family:'Oswald','Manrope',sans-serif; text-transform:uppercase; letter-spacing:.03em; padding:11px 13px; font-size:.86rem;}
+@media (min-width:761px){ .topbar{grid-template-columns:auto minmax(0,1fr) auto;} .tabs{flex-wrap:wrap; justify-content:center;} }
+.tab-btn.active{box-shadow:0 0 0 2px var(--gold) inset, 0 8px 18px rgba(120,20,10,.3);}
+.tab-btn.active span::before{content:"★ "; color:var(--gold);}
+.btn.primary,.btn.dark{font-family:'Oswald','Manrope',sans-serif; text-transform:uppercase; letter-spacing:.05em;}
+.progressbar > div{background:repeating-linear-gradient(-45deg,var(--lav-2) 0 10px,var(--lav) 10px 20px);}
+.progressbar.pink > div{background:repeating-linear-gradient(-45deg,var(--pink-2) 0 10px,var(--pink) 10px 20px);}
+.chart-badge .big,.blk-pct{font-family:'Russo One','Oswald',sans-serif; font-weight:400;}
+.app{border-top:5px solid var(--band);}
+footer.note{border-top:3px double var(--border); padding-top:12px;}
+@media (max-width:760px){
+  .app{border-top:none;}
+  .tab-btn{text-transform:none; letter-spacing:0; padding:8px 0; font-size:.64rem;}
+  .logo{width:52px; height:52px;}
+  .tab-btn.active span::before{content:none;}
+}
+
+/* Pantalla de entrada: el logo aparece al abrir y se desvanece en 4 s */
+#entrada{position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; pointer-events:none;
+  background:var(--band); animation:entrada-fuera 4s ease-in .6s forwards;}
+#entrada::before{content:""; position:absolute; inset:0; opacity:.25; background:repeating-conic-gradient(from 0deg at 50% 50%,var(--red-deep) 0 7deg,transparent 7deg 14deg);}
+#entrada img{position:relative; width:min(72vw,360px); height:auto; border-radius:50%; box-shadow:0 10px 40px rgba(0,0,0,.45); animation:entrada-logo 4.6s ease-out forwards;}
+@keyframes entrada-fuera{to{opacity:0; visibility:hidden;}}
+@keyframes entrada-logo{from{transform:scale(.92);} to{transform:scale(1.04);}}
+@media (prefers-reduced-motion:reduce){ #entrada img{animation:none;} }
+@media print{ #entrada{display:none;} }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .callout{background:rgba(0,0,0,.18);} }
 </style>
+
+<div id="entrada" aria-hidden="true"><img src="img/logo.webp" width="512" height="512" alt=""></div>
+<script>setTimeout(function(){var e=document.getElementById('entrada');if(e)e.remove();},5000);</script>
 
 <div class="app">
   <header class="topbar">
-    <div class="logo ru" aria-hidden="true">Ру</div>
+    <img class="logo" src="img/logo-180.webp" width="180" height="180" alt="Pabloski’s Russian Club" title="Pabloski’s Russian Club">
     <nav class="tabs">
       <button class="tab-btn" data-view="dashboard" data-c="Inicio" aria-label="Dashboard"><svg class="i" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Dashboard</span></button>
       <button class="tab-btn" data-view="hoy" data-c="Hoy" aria-label="Hoy"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span>Hoy</span></button>
@@ -477,6 +524,7 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
     </div>
   </header>
 
+  <div class="club"><span class="club-star" aria-hidden="true">★</span> Pabloski’s Russian Club <span class="ru" lang="ru">· Клуб ·</span></div>
   <h1 class="greet"><span class="ru" id="greet-ru">До́брый день</span>, Pablo</h1>
   <span class="sync-state" id="sync-state" data-e="local" role="status"><span class="dot" aria-hidden="true"></span><span id="sync-txt">Guardado en este dispositivo</span></span>
   <div class="greet-sub">Ruso para Recepciones Diplomáticas · Rev 2.1 · 30 días · A Input/fonología 8 · B Retrieval 10 · C Form focus 7 · D Micro-tarea grabada 5</div>
@@ -1268,7 +1316,7 @@ footer.note{color:var(--ink-3); font-size:.75rem; text-align:center; margin-top:
     <div id="curso-content"></div>
   </section>
 
-  <footer class="note">Ruso para Recepciones Diplomáticas · Rev 2.1 · progreso guardado en este navegador y, con la clave, sincronizado entre tus dispositivos</footer>
+  <footer class="note"><span class="club-star" aria-hidden="true">★</span> Pabloski’s Russian Club · Ruso para Recepciones Diplomáticas · Rev 2.1 · progreso guardado en este navegador y, con la clave, sincronizado entre tus dispositivos</footer>
 </div>
 
 <div id="tarjeta" hidden></div>
