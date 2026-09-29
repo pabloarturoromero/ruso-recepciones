@@ -33,7 +33,7 @@ async function abrir(opciones = {}) {
 test('carga sin errores y muestra el dashboard vacío', async () => {
   const { contexto, pagina, errores } = await abrir();
   assert.equal(await pagina.title(), 'Ruso Recepciones — Tracker');
-  assert.equal(await pagina.locator('.tab-btn').count(), 4);
+  assert.equal(await pagina.locator('.tab-btn').count(), 5);
   assert.ok(await pagina.locator('#view-dashboard').isVisible());
   assert.equal(await pagina.textContent('#st-days'), '0/30');
   assert.equal(await pagina.textContent('#st-mock'), '0/4');
@@ -121,12 +121,49 @@ test('el índice y los enlaces de la referencia llevan al día correcto', async 
 
 test('en móvil (375 px) no hay desplazamiento horizontal', async () => {
   const { contexto, pagina } = await abrir({ viewport: { width: 375, height: 812 }, isMobile: true });
-  for (const vista of ['dashboard', 'hoy', 'indice', 'referencia']) {
+  for (const vista of ['dashboard', 'hoy', 'indice', 'referencia', 'dudas']) {
     await pagina.click('.tab-btn[data-view="' + vista + '"]');
     const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
     assert.ok(ancho <= 376, vista + ': ancho ' + ancho);
   }
+  await pagina.waitForFunction(() => !!window.LEXICO);
+  await pagina.fill('#dudas-q', 'от имени наша делегация');
+  await pagina.press('#dudas-q', 'Enter');
+  await pagina.click('#dudas-teclado-btn');
+  const ancho = await pagina.evaluate(() => document.documentElement.scrollWidth);
+  assert.ok(ancho <= 376, 'dudas con respuesta y teclado: ancho ' + ancho);
+  await pagina.screenshot({ path: CAPTURAS + '7-movil-dudas.png', fullPage: true });
   await pagina.click('.tab-btn[data-view="hoy"]');
   await pagina.screenshot({ path: CAPTURAS + '5-movil-hoy.png', fullPage: false });
+  await contexto.close();
+});
+
+test('el chat de dudas responde, carga el diccionario y enlaza al día', async () => {
+  const { contexto, pagina, errores } = await abrir();
+  const ultima = async () => (await pagina.locator('.msg.bot').last().textContent()).replace(/́/g, '');
+  await pagina.click('.tab-btn[data-view="dudas"]');
+  assert.ok(await pagina.locator('#view-dudas').isVisible());
+  await pagina.waitForFunction(() => !!window.LEXICO);
+  await pagina.fill('#dudas-q', 'genitivo de Россия');
+  await pagina.click('#dudas-form button[type="submit"]');
+  assert.match(await ultima(), /genitivo singular: России/);
+  await pagina.click('.duda-chip[data-q="conjuga говорить"]');
+  assert.match(await ultima(), /говоришь/);
+  await pagina.fill('#dudas-q', '¿-тся o -ться?');
+  await pagina.press('#dudas-q', 'Enter');
+  assert.match(await ultima(), /что делать/);
+  // Teclado ruso en pantalla
+  await pagina.click('#dudas-teclado-btn');
+  await pagina.click('#dudas-teclado button[data-l="д"]');
+  await pagina.click('#dudas-teclado button[data-l="а"]');
+  assert.equal(await pagina.inputValue('#dudas-q'), 'да');
+  await pagina.screenshot({ path: CAPTURAS + '6-dudas.png', fullPage: true });
+  // Un enlace de día lleva a la lección
+  await pagina.fill('#dudas-q', 'acento de приглашение');
+  await pagina.press('#dudas-q', 'Enter');
+  await pagina.locator('.msg.bot').last().locator('.jumplink[data-day="6"]').first().click();
+  assert.ok(await pagina.locator('#view-hoy').isVisible());
+  assert.equal(await pagina.inputValue('#day-select'), '6');
+  assert.deepEqual(errores, []);
   await contexto.close();
 });
